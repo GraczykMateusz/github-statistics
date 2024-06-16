@@ -1,11 +1,12 @@
 package dev.graczykmateusz.githubstatistics.github.user;
 
-import dev.graczykmateusz.githubstatistics.abstraction.event.EventPublisher;
+import dev.graczykmateusz.githubstatistics.abstraction.event.DomainEventPublisher;
 import dev.graczykmateusz.githubstatistics.abstraction.query.QueryHandler;
 import dev.graczykmateusz.githubstatistics.github.client.GithubClient;
 import dev.graczykmateusz.githubstatistics.github.user.dto.GithubUserDto;
 import dev.graczykmateusz.githubstatistics.github.user.event.GetGithubUserWasExecuted;
 import dev.graczykmateusz.githubstatistics.github.user.query.GetGithubUser;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -13,13 +14,14 @@ import org.springframework.context.annotation.Configuration;
 class GithubUserConfiguration {
 
   @Bean("getGithubUserWasExecutedPublisher")
-  EventPublisher<GetGithubUserWasExecuted> getGithubUserWasExecutedPublisher() {
-    return new GetGithubUserWasExecutedPublisher();
+  DomainEventPublisher<GetGithubUserWasExecuted> getGithubUserWasExecutedPublisher(
+      ApplicationEventPublisher eventPublisher) {
+    return new GetGithubUserWasExecutedPublisher(eventPublisher);
   }
 
   @Bean("getGithubUserQueryHandler")
   QueryHandler<GithubUserDto, GetGithubUser> getGithubUserQueryHandler(
-          GithubClient client, EventPublisher<GetGithubUserWasExecuted> publisher) {
+      GithubClient client, DomainEventPublisher<GetGithubUserWasExecuted> publisher) {
     return new GetGithubUserQueryHandler(client, publisher);
   }
 }

@@ -1,10 +1,17 @@
 package dev.graczykmateusz.githubstatistics.github.user;
 
-import dev.graczykmateusz.githubstatistics.abstraction.event.EventPublisher;
+import dev.graczykmateusz.githubstatistics.abstraction.event.DomainEventPublisher;
 import dev.graczykmateusz.githubstatistics.github.user.event.GetGithubUserWasExecuted;
+import lombok.RequiredArgsConstructor;
+import org.springframework.context.ApplicationEventPublisher;
 
-class GetGithubUserWasExecutedPublisher implements EventPublisher<GetGithubUserWasExecuted> {
+@RequiredArgsConstructor
+class GetGithubUserWasExecutedPublisher implements DomainEventPublisher<GetGithubUserWasExecuted> {
+
+  private final ApplicationEventPublisher eventPublisher;
 
   @Override
-  public void publish(GetGithubUserWasExecuted event) {}
+  public void publish(GetGithubUserWasExecuted event) {
+    eventPublisher.publishEvent(event);
+  }
 }

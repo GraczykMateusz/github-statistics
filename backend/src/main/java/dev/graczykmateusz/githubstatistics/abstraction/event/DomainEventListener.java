@@ -1,6 +1,6 @@
 package dev.graczykmateusz.githubstatistics.abstraction.event;
 
-public interface EventListener<T extends Event> {
+public interface DomainEventListener<T extends DomainEvent> {
     
     void listen(T event);
 }

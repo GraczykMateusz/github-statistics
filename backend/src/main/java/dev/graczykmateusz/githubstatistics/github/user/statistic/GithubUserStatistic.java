@@ -1,3 +1,13 @@
 package dev.graczykmateusz.githubstatistics.github.user.statistic;
 
-class GithubUserStatistic {}
+import lombok.*;
+
+@AllArgsConstructor
+@NoArgsConstructor
+@Getter
+@Setter
+@Data
+class GithubUserStatistic {
+    
+    private String login;
+}

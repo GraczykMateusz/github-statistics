@@ -1,6 +1,6 @@
 package dev.graczykmateusz.githubstatistics.github.user;
 
-import dev.graczykmateusz.githubstatistics.abstraction.event.EventPublisher;
+import dev.graczykmateusz.githubstatistics.abstraction.event.DomainEventPublisher;
 import dev.graczykmateusz.githubstatistics.abstraction.query.QueryHandler;
 import dev.graczykmateusz.githubstatistics.github.client.GithubClient;
 import dev.graczykmateusz.githubstatistics.github.user.dto.GithubUserDto;
@@ -13,7 +13,7 @@ import reactor.core.publisher.Mono;
 class GetGithubUserQueryHandler implements QueryHandler<GithubUserDto, GetGithubUser> {
 
   private final GithubClient client;
-  private final EventPublisher<GetGithubUserWasExecuted> publisher;
+  private final DomainEventPublisher<GetGithubUserWasExecuted> publisher;
 
   @Override
   public Mono<GithubUserDto> handle(GetGithubUser query) {

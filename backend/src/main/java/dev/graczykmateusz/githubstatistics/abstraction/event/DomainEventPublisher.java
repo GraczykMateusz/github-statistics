@@ -1,6 +1,6 @@
 package dev.graczykmateusz.githubstatistics.abstraction.event;
 
-public interface EventPublisher<T extends Event> {
+public interface DomainEventPublisher<T extends DomainEvent> {
 
   void publish(T event);
 }
