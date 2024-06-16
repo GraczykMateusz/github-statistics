@@ -1,1 +1,11 @@
-/* You can add global styles to this file, and also import other style files */
+/* Importing Bootstrap SCSS file. */
+@import 'bootstrap/scss/bootstrap';
+
+.app-wrapper {
+  height: 100svh;
+  width: 100%;
+  justify-content: center;
+  display: flex;
+  align-items: start;
+  color: var(--my-white);
+}

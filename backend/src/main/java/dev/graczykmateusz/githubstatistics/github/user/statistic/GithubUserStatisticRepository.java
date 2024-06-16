@@ -1,3 +1,3 @@
 package dev.graczykmateusz.githubstatistics.github.user.statistic;
 
-class GithubUserStatisticRepository {}
+interface GithubUserStatisticRepository {}

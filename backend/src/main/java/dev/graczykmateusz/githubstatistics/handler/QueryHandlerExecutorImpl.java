@@ -38,7 +38,7 @@ class QueryHandlerExecutorImpl implements QueryHandlerExecutor {
   }
 
   @Override
-  public QueryResult execute(Query query) {
+  public Mono<QueryResult> execute(Query query) {
     QueryHandler handler = handlerMap.get(query.getClass());
     String queryClass = query.getClass().getSimpleName();
 
@@ -49,7 +49,7 @@ class QueryHandlerExecutorImpl implements QueryHandlerExecutor {
     try {
       Mono<QueryResult> result = handler.handle(query);
       handlingStatus = HandlingStatus.SUCCESS;
-      return ;
+      return result;
     } catch (RuntimeException e) {
       handlingStatus = HandlingStatus.FAIL;
       throw e;
