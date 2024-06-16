@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 class GithubUserStatisticMapper {
 
-  static GithubUserStatistic toDomain(GetGithubUserWasExecuted event) {
-    return new GithubUserStatistic(event.login());
+  static GithubUserStatisticSaveModel toDomain(GetGithubUserWasExecuted event) {
+    return new GithubUserStatisticSaveModel(event.login());
   }
 }

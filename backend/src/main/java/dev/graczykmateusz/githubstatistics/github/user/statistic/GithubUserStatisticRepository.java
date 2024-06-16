@@ -9,5 +9,5 @@ interface GithubUserStatisticRepository {
   @Insert(
       "INSERT INTO github_user_statistic (login, count) VALUES (#{login}, 1) "
           + "ON CONFLICT (login) DO UPDATE SET count = github_user_statistic.count + 1")
-  void incrementCount(GithubUserStatistic githubUserStatistic);
+  void incrementCount(GithubUserStatisticSaveModel githubUserStatisticSaveModel);
 }

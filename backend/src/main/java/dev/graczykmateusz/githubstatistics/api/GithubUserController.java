@@ -21,4 +21,9 @@ class GithubUserController {
   Mono<QueryResult> getUserData(@PathVariable("login") String login) {
     return queryHandlerExecutor.execute(new GetGithubUser(login));
   }
+  
+//  @GetMapping("/{login}")
+//  Mono<QueryResult> getUserStatistic(@PathVariable("login") String login) {
+//    return queryHandlerExecutor.execute(new GetGithubUser(login));
+//  }
 }
