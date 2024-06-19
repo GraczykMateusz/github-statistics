@@ -4,10 +4,9 @@ import dev.graczykmateusz.githubstatistics.abstraction.query.QueryHandlerExecuto
 import dev.graczykmateusz.githubstatistics.abstraction.query.QueryResult;
 import dev.graczykmateusz.githubstatistics.github.user.query.GetGithubUser;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.messaging.handler.annotation.MessageMapping;
+import org.springframework.messaging.handler.annotation.SendTo;
+import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Mono;
 
 @RestController
@@ -22,8 +21,15 @@ class GithubUserController {
     return queryHandlerExecutor.execute(new GetGithubUser(login));
   }
   
-//  @GetMapping("/{login}")
-//  Mono<QueryResult> getUserStatistic(@PathVariable("login") String login) {
-//    return queryHandlerExecutor.execute(new GetGithubUser(login));
+//  @MessageMapping("/github")
+//  @SendTo("/topic/db-updates")
+//  public String handleWebSocketRequest(String message) {
+//    System.out.println("dupa");
+//    return message; // Echo back the message to subscribers
 //  }
+
+  @GetMapping("/a/a")
+  String a() {
+    return "{\"x\": \"x\"}";
+  }
 }
