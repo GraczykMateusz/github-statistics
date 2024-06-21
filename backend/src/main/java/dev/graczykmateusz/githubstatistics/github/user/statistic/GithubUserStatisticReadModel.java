@@ -7,5 +7,5 @@ import lombok.*;
 class GithubUserStatisticReadModel {
 
   private String login;
-  private String count;
+  private long count;
 }

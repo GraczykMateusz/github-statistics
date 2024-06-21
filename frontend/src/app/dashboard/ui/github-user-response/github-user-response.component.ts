@@ -1,4 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, inject, Signal } from '@angular/core';
+import { GithubUserService } from '../../data/client/github-user.service';
+import { GithubUser } from '../../data/client/github-user';
 
 @Component({
   selector: 'app-github-user-response',
@@ -8,5 +10,7 @@ import { Component } from '@angular/core';
   styleUrl: './github-user-response.component.scss'
 })
 export class GithubUserResponseComponent {
-
+  
+  private readonly githubUserService: GithubUserService = inject(GithubUserService);
+  readonly githubUser: Signal<GithubUser | undefined> = this.githubUserService.githubUser;
 }

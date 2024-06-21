@@ -7,10 +7,12 @@ import dev.graczykmateusz.githubstatistics.abstraction.query.QueryResult;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.function.BiFunction;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.util.StopWatch;
+import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 @Slf4j
@@ -39,6 +41,15 @@ class QueryHandlerExecutorImpl implements QueryHandlerExecutor {
 
   @Override
   public Mono<QueryResult> execute(Query query) {
+    return executeInternal(query, QueryHandler::handle);
+  }
+
+  @Override
+  public Flux<QueryResult> executeMany(Query query) {
+    return executeInternal(query, QueryHandler::handleMany);
+  }
+
+  private <T> T executeInternal(Query query, BiFunction<QueryHandler, Query, T> handlerFunction) {
     QueryHandler handler = handlerMap.get(query.getClass());
     String queryClass = query.getClass().getSimpleName();
 
@@ -46,8 +57,9 @@ class QueryHandlerExecutorImpl implements QueryHandlerExecutor {
     StopWatch stopWatch = new StopWatch();
     stopWatch.start();
     HandlingStatus handlingStatus = null;
+
     try {
-      Mono<QueryResult> result = handler.handle(query);
+      T result = handlerFunction.apply(handler, query);
       handlingStatus = HandlingStatus.SUCCESS;
       return result;
     } catch (RuntimeException e) {
