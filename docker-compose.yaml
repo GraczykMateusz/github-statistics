@@ -9,16 +9,16 @@ services:
     ports:
       - "5432:5432"
     command: [ "postgres", "-c", "wal_level=logical" ]
-  zookeeper:
     restart: always
-    image: docker.io/bitnami/zookeeper:3.9.0
+  zookeeper:
+    image: docker.io/bitnami/zookeeper:3.9.2
     ports:
       - "2181:2181"
     environment:
       - ALLOW_ANONYMOUS_LOGIN=yes
-  kafka:
     restart: always
-    image: docker.io/bitnami/kafka:3.1.2
+  kafka:
+    image: docker.io/bitnami/kafka:3.3.2
     ports:
       - "9093:9093"
     environment:
@@ -31,7 +31,7 @@ services:
       - KAFKA_CFG_INTER_BROKER_LISTENER_NAME=CLIENT
     depends_on:
       - zookeeper
-
+    restart: always
   connect:
     image: debezium/connect:2.6.2.Final
     ports:
@@ -45,8 +45,9 @@ services:
       - CONFIG_STORAGE_TOPIC=debezium_configs
       - OFFSET_STORAGE_TOPIC=debezium_offsets
       - STATUS_STORAGE_TOPIC=debezium_statuses
+    restart: always
   kafka-ui:
-    image: provectuslabs/kafka-ui:latest
+    image: provectuslabs/kafka-ui:v0.7.2
     environment:
       - KAFKA_CLUSTERS_0_NAME=local
       - KAFKA_CLUSTERS_0_BOOTSTRAPSERVERS=kafka:9092
@@ -57,8 +58,9 @@ services:
       - "9000:8080"
     depends_on:
       - kafka
+    restart: always
   debezium-ui:
-    image: debezium/debezium-ui:2.4
+    image: debezium/debezium-ui:2.5
     platform: linux/amd64
     environment:
       - KAFKA_CONNECT_URIS=http://connect:8083
@@ -66,3 +68,4 @@ services:
       - "9091:8080"
     depends_on:
       - connect
+    restart: always
