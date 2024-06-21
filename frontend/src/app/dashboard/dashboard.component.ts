@@ -21,6 +21,6 @@ export class DashboardComponent {
   
   getUserData(): void {
     const login = this.loginControl.value;
-    this.githubUserService.getUserData(login);
+    this.githubUserService.refreshUserData(login);
   }
 }

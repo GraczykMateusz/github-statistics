@@ -15,6 +15,10 @@ export class ApiBuilder {
     return this.append(`users`).append(login);
   }
   
+  get statistics() {
+    return this.append(`statistics`);
+  }
+  
   build(): string {
     return this.url;
   }

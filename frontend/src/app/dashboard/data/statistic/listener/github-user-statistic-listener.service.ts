@@ -1,8 +1,7 @@
 import { computed, Injectable, signal, WritableSignal } from '@angular/core';
 import SockJS from 'sockjs-client';
 import Stomp from 'stompjs';
-import { GithubUser } from '../client/github-user';
-import { GithubUserStatistic } from './github-user-statistic';
+import { GithubUserStatistic } from '../github-user-statistic';
 
 @Injectable({
   providedIn: 'root'

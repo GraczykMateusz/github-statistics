@@ -16,7 +16,7 @@ export class GithubUserService {
     return computed(() => this._githubUser());
   }
   
-  getUserData(login: string): void {
+  refreshUserData(login: string): void {
     const url: string = ApiBuilder.api.v1.users(login).build();
     this.http.get<GithubUser>(url)
       .pipe(first())

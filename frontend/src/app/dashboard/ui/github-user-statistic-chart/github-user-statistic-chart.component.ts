@@ -1,7 +1,8 @@
 import { Component, inject } from '@angular/core';
 import { ChartConfiguration } from 'chart.js';
 import { BaseChartDirective } from 'ng2-charts';
-import { GithubUserStatisticListenerService } from '../../data/listener/github-user-statistic-listener.service';
+import { GithubUserStatisticListenerService } from '../../data/statistic/listener/github-user-statistic-listener.service';
+import { GithubUserStatisticService } from '../../data/statistic/client/github-user-statistic.service';
 
 @Component({
   selector: 'app-github-user-statistic-chart',
@@ -15,6 +16,7 @@ import { GithubUserStatisticListenerService } from '../../data/listener/github-u
 export class GithubUserStatisticChartComponent {
   
   private readonly githubUserStatisticListenerService = inject(GithubUserStatisticListenerService);
+  private readonly githubUserStatisticService = inject(GithubUserStatisticService);
   private readonly githubUserStatistic = this.githubUserStatisticListenerService.githubUserStatistic();
   
   barChartData: ChartConfiguration<'bar'>['data'] = {
