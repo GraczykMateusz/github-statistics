@@ -1,4 +1,4 @@
-import { computed, Injectable, signal, WritableSignal } from '@angular/core';
+import { computed, Injectable, Signal, signal, WritableSignal } from '@angular/core';
 import SockJS from 'sockjs-client';
 import Stomp from 'stompjs';
 import { GithubUserStatistic } from '../github-user-statistic';
@@ -21,7 +21,7 @@ export class GithubUserStatisticListenerService {
     });
   }
   
-  get githubUserStatistic() {
-    return computed(() => this._githubUserStatistic);
+  get githubUserStatistic(): Signal<GithubUserStatistic | undefined> {
+    return computed(() => this._githubUserStatistic());
   }
 }

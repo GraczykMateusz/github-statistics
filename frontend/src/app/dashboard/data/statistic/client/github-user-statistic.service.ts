@@ -16,7 +16,7 @@ export class GithubUserStatisticService {
     return computed(() => this._allGithubUserStatistics());
   }
   
-  refreshAllUsersStatistics(login: string): void {
+  refreshAllUsersStatistics(): void {
     const url: string = ApiBuilder.api.v1.users('all').statistics.build();
     this.http.get<GithubUserStatistic>(url)
       .pipe(first())

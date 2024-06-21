@@ -1,3 +1,8 @@
 @if (githubUser()) {
-    {{githubUser()}}
+
+    <div class="d-flex">
+        <code>
+            <pre>{{ githubUser() | json }}</pre>
+        </code>
+    </div>
 }
