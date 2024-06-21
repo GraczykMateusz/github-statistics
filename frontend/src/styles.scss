@@ -2,10 +2,10 @@
 @import 'bootstrap/scss/bootstrap';
 
 .app-wrapper {
+  display: flex;
   height: 100svh;
   width: 100%;
   justify-content: center;
-  display: flex;
-  align-items: start;
+  align-items: center;
   color: var(--my-white);
 }

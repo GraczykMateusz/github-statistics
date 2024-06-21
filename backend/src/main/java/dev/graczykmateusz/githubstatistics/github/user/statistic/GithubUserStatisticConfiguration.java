@@ -8,9 +8,9 @@ import org.springframework.messaging.simp.SimpMessagingTemplate;
 class GithubUserStatisticConfiguration {
 
   @Bean("githubUserStatisticKafkaListener")
-  GithubUserStatisticKafkaConsumer githubUserStatisticKafkaListener(
+  GithubUserStatisticKafkaListener githubUserStatisticKafkaListener(
       SimpMessagingTemplate messagingTemplate) {
-    return new GithubUserStatisticKafkaConsumer(messagingTemplate);
+    return new GithubUserStatisticKafkaListener(messagingTemplate);
   }
 
   @Bean("getGithubUserWasExecutedListener")
