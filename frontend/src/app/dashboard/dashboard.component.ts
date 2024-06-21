@@ -13,12 +13,9 @@ import { GithubUserStatisticService } from './data/github-user-statistic.service
 })
 export class DashboardComponent implements OnInit {
   
-  messages: string[] = [];
-  
   private readonly web = inject(GithubUserStatisticService);
   
   ngOnInit() {
-    this.web.x();
     this.web.connectToWebSocket();
   }
 }
