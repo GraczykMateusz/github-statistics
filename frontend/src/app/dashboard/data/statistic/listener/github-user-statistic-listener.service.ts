@@ -16,7 +16,12 @@ export class GithubUserStatisticListenerService {
   constructor() {
     this.stompClient.connect({}, (frame) => {
       this.stompClient.subscribe('/topic/github-user-statistic', (message) => {
-        this._githubUserStatistic.set(undefined);
+        try {
+          const parsedMessage = JSON.parse(message.body) as GithubUserStatistic;
+          this._githubUserStatistic.set(parsedMessage);
+        } catch (error) {
+          console.error('Error parsing message:', error);
+        }
       });
     });
   }

@@ -2,9 +2,11 @@ package dev.graczykmateusz.githubstatistics.github.user.statistic;
 
 import lombok.*;
 
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
-@Getter(AccessLevel.PROTECTED)
-class GithubUserStatisticReadModel {
+@ToString
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+public class GithubUserStatisticReadModel {
 
   private String login;
   private long count;

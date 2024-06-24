@@ -1,6 +1,8 @@
-<canvas baseChart
-        width="950" height="425" style="width: 100vmin;height: 55vmin;"
-        [data]="barChartData"
-        [options]="barChartOptions"
-        [type]="'bar'">
-</canvas>
+@if (chart()) {
+    <canvas baseChart
+            width="950" height="425" style="width: 100vmin;height: 55vmin;"
+            [data]="chart()"
+            [options]="barChartOptions"
+            [type]="'bar'">
+    </canvas>
+}

@@ -8,12 +8,14 @@ import org.springframework.messaging.simp.SimpMessagingTemplate;
 @Slf4j
 @RequiredArgsConstructor
 class GithubUserStatisticKafkaListener {
-  
+
+  private static final String TOPIC = "/topic/github-user-statistic";
+
   private final SimpMessagingTemplate messagingTemplate;
   
-  @KafkaListener(topics = "pg-changes.public.github_user_statistic", groupId = "debezium-events1")
-  void consume(String s) {
-    log.info(s);
-    messagingTemplate.convertAndSend("/topic/github-user-statistic", s);
+  @KafkaListener(topics = "pg-changes.public.github_user_statistic", groupId = "github-user-statistic-consumer")
+  void consume(GithubUserStatisticReadModel payload) {
+    log.info("Received statistic: " + payload);
+    messagingTemplate.convertAndSend(TOPIC, payload);
   }
 }
