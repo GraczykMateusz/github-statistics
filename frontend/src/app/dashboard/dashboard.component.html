@@ -1,7 +1,23 @@
 <div class="d-flex flex-column justify-content-center align-items-center">
-    <app-github-user-statistic-chart></app-github-user-statistic-chart>
-    <app-github-user-response></app-github-user-response>
+
+    <ul ngbNav #nav="ngbNav" class="nav-tabs">
+        <li ngbNavItem>
+            <button ngbNavLink>Chart</button>
+            <ng-template ngbNavContent>
+                <app-github-user-statistic-chart></app-github-user-statistic-chart>
+            </ng-template>
+        </li>
+        <li ngbNavItem>
+            <button ngbNavLink>Response</button>
+            <ng-template ngbNavContent>
+                <app-github-user-response></app-github-user-response>
+            </ng-template>
+        </li>
+    </ul>
+    <div [ngbNavOutlet]="nav"></div>
+
     <input id="login" type="email" class="form-control m-1" placeholder="Enter login..." [formControl]="loginControl">
+
     <button id="submit-login" type="submit" class="btn btn-primary w-100"
             [disabled]="loginControl.invalid"
             (click)="getUserData()">Submit</button>

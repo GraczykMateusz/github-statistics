@@ -10,19 +10,30 @@ import { HttpClient } from '@angular/common/http';
 export class GithubUserStatisticService {
   
   private readonly http: HttpClient = inject(HttpClient);
-  private readonly _allGithubUserStatistics: WritableSignal<GithubUserStatistic[] | []> = signal([]);
+  private readonly _allGithubUserStatistics: WritableSignal<GithubUserStatistic[]> = signal([]);
   
-  get allGithubUserStatistics(): Signal<GithubUserStatistic[] | []> {
+  get allGithubUserStatistics(): Signal<GithubUserStatistic[]> {
     return computed(() => this._allGithubUserStatistics());
   }
   
   updateCount(githubUserStatistic: GithubUserStatistic) {
-    this._allGithubUserStatistics.update(arr => arr.map(v => {
-      if (v.login === githubUserStatistic.login) {
-        v.count = githubUserStatistic.count;
+    this._allGithubUserStatistics.update((arr: GithubUserStatistic[]) => {
+      // Find the index of the user in the array
+      const index = arr.findIndex(v => v.login === githubUserStatistic.login);
+      
+      // Create a new array to ensure reactivity
+      const newArr = [...arr];
+      
+      if (index !== -1) {
+        // If the user exists, update the count
+        newArr[index].count = githubUserStatistic.count;
+      } else {
+        // If the user does not exist, add the new githubUserStatistic
+        newArr.push(githubUserStatistic);
       }
-      return v;
-    }));
+      
+      return newArr;
+    });
   }
   
   refreshAllUsersStatistics(): void {

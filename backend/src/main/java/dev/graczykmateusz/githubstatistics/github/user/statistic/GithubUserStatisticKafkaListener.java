@@ -1,5 +1,6 @@
 package dev.graczykmateusz.githubstatistics.github.user.statistic;
 
+import dev.graczykmateusz.githubstatistics.github.user.statistic.dto.GithubUserStatisticDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.kafka.annotation.KafkaListener;
@@ -14,7 +15,7 @@ class GithubUserStatisticKafkaListener {
   private final SimpMessagingTemplate messagingTemplate;
   
   @KafkaListener(topics = "pg-changes.public.github_user_statistic", groupId = "github-user-statistic-consumer")
-  void consume(GithubUserStatisticReadModel payload) {
+  void consume(GithubUserStatisticDto payload) {
     log.info("Received statistic: " + payload);
     messagingTemplate.convertAndSend(TOPIC, payload);
   }

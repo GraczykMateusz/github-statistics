@@ -23,7 +23,7 @@ export class GithubUserStatisticChartComponent implements OnInit {
   private readonly githubUserStatisticService = inject(GithubUserStatisticService);
   private readonly chartPreparerService = inject(ChartPreparerService);
   
-  private readonly allGithubUserStatistics: Signal<GithubUserStatistic[] | []> = this.githubUserStatisticService.allGithubUserStatistics;
+  private readonly allGithubUserStatistics: Signal<GithubUserStatistic[]> = this.githubUserStatisticService.allGithubUserStatistics;
   private readonly updatedGithubUserStatistic: Signal<GithubUserStatistic | undefined> = this.githubUserStatisticListenerService.githubUserStatistic;
   
   readonly chart = computed(() => this.chartPreparerService.prepare(this.allGithubUserStatistics()));

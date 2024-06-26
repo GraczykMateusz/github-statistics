@@ -3,6 +3,7 @@ import { GithubUserStatisticChartComponent } from './ui/github-user-statistic-ch
 import { GithubUserService } from './data/client/github-user.service';
 import { FormControl, ReactiveFormsModule, Validators } from '@angular/forms';
 import { GithubUserResponseComponent } from './ui/github-user-response/github-user-response.component';
+import { NgbNav, NgbNavContent, NgbNavItem, NgbNavLinkButton, NgbNavOutlet } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-dashboard',
@@ -10,7 +11,12 @@ import { GithubUserResponseComponent } from './ui/github-user-response/github-us
   imports: [
     GithubUserStatisticChartComponent,
     ReactiveFormsModule,
-    GithubUserResponseComponent
+    GithubUserResponseComponent,
+    NgbNavOutlet,
+    NgbNavItem,
+    NgbNavLinkButton,
+    NgbNavContent,
+    NgbNav
   ],
   templateUrl: './dashboard.component.html',
   styleUrl: './dashboard.component.scss'

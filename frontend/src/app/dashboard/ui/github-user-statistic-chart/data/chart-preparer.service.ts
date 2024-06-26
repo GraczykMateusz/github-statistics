@@ -6,7 +6,7 @@ import { GithubUserStatistic } from '../../../data/statistic/github-user-statist
 })
 export class ChartPreparerService {
   
-  prepare(allGithubUserStatistics: GithubUserStatistic[] | []) {
+  prepare(allGithubUserStatistics: GithubUserStatistic[]) {
     return {
       labels: allGithubUserStatistics.map(value => value.login),
       datasets: [
