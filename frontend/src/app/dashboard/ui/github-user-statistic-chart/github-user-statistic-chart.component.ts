@@ -5,7 +5,7 @@ import { GithubUserStatisticService } from '../../data/statistic/client/github-u
 import { GithubUserStatistic } from '../../data/statistic/github-user-statistic';
 import { AsyncPipe } from '@angular/common';
 import { ChartPreparerService } from './data/chart-preparer.service';
-import { ChartConfiguration } from 'chart.js';
+import { ChartConfiguration, ChartData } from 'chart.js';
 
 @Component({
   selector: 'app-github-user-statistic-chart',
@@ -23,14 +23,15 @@ export class GithubUserStatisticChartComponent implements OnInit {
   private readonly githubUserStatisticService = inject(GithubUserStatisticService);
   private readonly chartPreparerService = inject(ChartPreparerService);
   
-  private readonly allGithubUserStatistics: Signal<GithubUserStatistic[]> = this.githubUserStatisticService.allGithubUserStatistics;
-  private readonly updatedGithubUserStatistic: Signal<GithubUserStatistic | undefined> = this.githubUserStatisticListenerService.githubUserStatistic;
+  private readonly allGithubUserStatistics: Signal<GithubUserStatistic[]> =
+    this.githubUserStatisticService.allGithubUserStatistics;
+  private readonly updatedGithubUserStatistic: Signal<GithubUserStatistic | undefined> =
+    this.githubUserStatisticListenerService.githubUserStatistic;
   
-  readonly chart = computed(() => this.chartPreparerService.prepare(this.allGithubUserStatistics()));
+  readonly chart: Signal<ChartData<any>> = computed(
+    () => this.chartPreparerService.prepare(this.allGithubUserStatistics()));
   
-  readonly barChartOptions: ChartConfiguration<'bar'>['options'] = {
-    maintainAspectRatio: false
-  };
+  readonly barChartOptions: ChartConfiguration<'bar'>['options'] = this.chartPreparerService.getOptions();
   
   constructor() {
     effect(() => {

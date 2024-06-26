@@ -1,4 +1,4 @@
-<div class="d-flex flex-column justify-content-center align-items-center">
+<div class="d-flex flex-column justify-content-center align-items-start">
 
     <ul ngbNav #nav="ngbNav" class="nav-tabs">
         <li ngbNavItem>
@@ -16,9 +16,11 @@
     </ul>
     <div [ngbNavOutlet]="nav"></div>
 
-    <input id="login" type="email" class="form-control m-1 w-100" placeholder="Enter login..." [formControl]="loginControl">
+    <input id="login" type="email" class="form-control mb-1 w-25" placeholder="Enter login..."
+           [formControl]="loginControl">
 
-    <button id="submit-login" type="submit" class="btn btn-primary w-100"
+    <button id="submit-login" type="submit" class="btn btn-primary w-25"
             [disabled]="loginControl.invalid"
-            (click)="getUserData()">Submit</button>
+            (click)="getUserData()">Submit
+    </button>
 </div>
