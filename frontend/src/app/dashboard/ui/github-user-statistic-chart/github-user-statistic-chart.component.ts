@@ -28,8 +28,8 @@ export class GithubUserStatisticChartComponent implements OnInit {
   
   readonly chart = computed(() => this.chartPreparerService.prepare(this.allGithubUserStatistics()));
   
-  barChartOptions: ChartConfiguration<'bar'>['options'] = {
-    responsive: false
+  readonly barChartOptions: ChartConfiguration<'bar'>['options'] = {
+    maintainAspectRatio: false
   };
   
   constructor() {

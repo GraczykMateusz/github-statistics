@@ -1,8 +1,13 @@
-@if (chart()) {
-    <canvas baseChart
-            width="950" height="425" style="width: 100vmin;height: 55vmin;"
-            [data]="chart()"
-            [options]="barChartOptions"
-            [type]="'bar'">
-    </canvas>
-}
+<div class="chart-container">
+    @if (chart()) {
+        <canvas baseChart
+                [data]="chart()"
+                [options]="barChartOptions"
+                [type]="'bar'">
+        </canvas>
+    } @else {
+        <div class="d-flex justify-content-center align-items-center h-100">
+            <div class="spinner-border text-primary"></div>
+        </div>
+    }
+</div>

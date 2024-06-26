@@ -1,8 +1,17 @@
-@if (githubUser()) {
-
-    <div class="d-flex">
-        <code>
-            <pre>{{ githubUser() | json }}</pre>
-        </code>
-    </div>
-}
+<div class="response-container">
+    @if (githubUser()) {
+        <div class="d-flex align-items-end h-100 overflow-auto">
+            <code>
+                <pre>{{ githubUser() | json }}</pre>
+            </code>
+        </div>
+    } @else if (githubUser() === undefined) {
+        <div class="d-flex justify-content-center align-items-center h-100 nothing-here">
+            Nothing here...
+        </div>
+    } @else {
+        <div class="d-flex justify-content-center align-items-center h-100">
+            <div class="spinner-border text-primary"></div>
+        </div>
+    }
+</div>
