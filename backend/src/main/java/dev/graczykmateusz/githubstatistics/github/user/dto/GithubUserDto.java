@@ -1,7 +1,6 @@
 package dev.graczykmateusz.githubstatistics.github.user.dto;
 
 import dev.graczykmateusz.githubstatistics.abstraction.query.QueryResult;
-
 import java.time.Instant;
 
 public record GithubUserDto(
@@ -11,4 +10,5 @@ public record GithubUserDto(
     String type,
     String avatarUrl,
     Instant createdAt,
-    double calculations) implements QueryResult {}
+    double calculations)
+    implements QueryResult {}

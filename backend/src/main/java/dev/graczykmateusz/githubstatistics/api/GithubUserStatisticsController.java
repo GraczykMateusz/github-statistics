@@ -16,6 +16,8 @@ class GithubUserStatisticsController {
 
   @GetMapping
   Flux<GithubUserStatisticDto> getAllUsersStatistics() {
-    return queryHandlerExecutor.executeMany(new GetAllGithubUsersStatistics()).map(v -> (GithubUserStatisticDto) v);
+    return queryHandlerExecutor
+        .executeMany(new GetAllGithubUsersStatistics())
+        .map(v -> (GithubUserStatisticDto) v);
   }
 }

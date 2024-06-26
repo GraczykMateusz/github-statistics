@@ -1,7 +1,6 @@
 package dev.graczykmateusz.githubstatistics.github.client;
 
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-
 import java.time.Instant;
 
 @JsonDeserialize(using = GithubUserDeserializer.class)

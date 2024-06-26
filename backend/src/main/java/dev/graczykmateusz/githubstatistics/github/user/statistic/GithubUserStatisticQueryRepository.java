@@ -7,6 +7,6 @@ import org.apache.ibatis.annotations.Select;
 @Mapper
 interface GithubUserStatisticQueryRepository {
 
-    @Select("SELECT * FROM github_user_statistic")
-    List<GithubUserStatisticReadModel> findAll();
+  @Select("SELECT * FROM github_user_statistic")
+  List<GithubUserStatisticReadModel> findAll();
 }

@@ -13,8 +13,10 @@ class GithubUserStatisticKafkaListener {
   private static final String TOPIC = "/topic/github-user-statistic";
 
   private final SimpMessagingTemplate messagingTemplate;
-  
-  @KafkaListener(topics = "pg-changes.public.github_user_statistic", groupId = "github-user-statistic-consumer")
+
+  @KafkaListener(
+      topics = "pg-changes.public.github_user_statistic",
+      groupId = "github-user-statistic-consumer")
   void consume(GithubUserStatisticDto payload) {
     log.info("Received statistic: " + payload);
     messagingTemplate.convertAndSend(TOPIC, payload);
