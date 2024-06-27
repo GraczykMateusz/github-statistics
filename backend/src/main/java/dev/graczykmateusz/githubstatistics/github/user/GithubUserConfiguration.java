@@ -21,7 +21,7 @@ class GithubUserConfiguration {
 
   @Bean("getGithubUserQueryHandler")
   QueryHandler<GithubUserDto, GetGithubUser> getGithubUserQueryHandler(
-      GithubClient client, DomainEventPublisher<GetGithubUserWasExecuted> publisher) {
-    return new GetGithubUserQueryHandler(client, publisher);
+      GithubClient githubClient, DomainEventPublisher<GetGithubUserWasExecuted> publisher) {
+    return new GetGithubUserQueryHandler(githubClient, publisher);
   }
 }
