@@ -2,9 +2,9 @@ package dev.graczykmateusz.githubstatistics.github.client.exception;
 
 import dev.graczykmateusz.githubstatistics.abstraction.exception.GithubException;
 
-public class ZeroFollowersException extends GithubException {
+public class GithubClientException extends GithubException {
 
-  public ZeroFollowersException(String message) {
-    super(message);
+  public GithubClientException(String message, Throwable cause) {
+    super(message, cause);
   }
 }
