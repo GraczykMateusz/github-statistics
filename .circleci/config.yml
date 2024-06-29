@@ -71,7 +71,7 @@ jobs:
           command: |
             cd ..
             mvn install:install-file \
-              -Dfile=frontend/target/frontend.jar \
+              -Dfile=frontend/target/frontend-1.0-SNAPSHOT.jar \
               -DgroupId=dev.graczykmateusz \
               -DartifactId=frontend \
               -Dversion=1.0-SNAPSHOT \
@@ -82,7 +82,7 @@ jobs:
           command: |
             cd ..
             mvn install:install-file \
-              -Dfile=backend/target/backend.jar \
+              -Dfile=backend/target/backend-1.0-SNAPSHOT.jar \
               -DgroupId=dev.graczykmateusz \
               -DartifactId=backend \
               -Dversion=1.0-SNAPSHOT \
