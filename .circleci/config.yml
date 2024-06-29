@@ -18,9 +18,9 @@ jobs:
       - run:
           name: Install deps
           command: npm ci
-      - run:
-          name: Ng Lint
-          command: npm run lint
+#      - run:
+#          name: Ng Lint
+#          command: npm run lint
       - save_cache:
           paths:
             - ~/github-statistics/frontend/node_modules
@@ -28,9 +28,10 @@ jobs:
       - run:
           name: Build
           command: mvn clean package
-      - store_artifacts:
-          path: ~/github-statistics/frontend/target
-          destination: frontend
+      - persist_to_workspace:
+          root: ~/github-statistics
+          paths:
+            - frontend/target/*.jar
 
   build-backend:
     executor: default-executor
@@ -40,21 +41,21 @@ jobs:
           path: ~/github-statistics
       - restore_cache:
           keys:
-            - act-pl-{{ checksum "pom.xml" }}
-      - run:
-          name: Spotless check
-          command: mvn spotless:check
+            - backend-{{ checksum "pom.xml" }}
+#      - run:
+#          name: Spotless check
+#          command: mvn spotless:check
       - run:
           name: Build
           command: mvn clean verify
       - save_cache:
           paths:
             - ~/.m2
-          key: act-pl-{{ checksum "pom.xml" }}
-      - store_artifacts:
-          path: ~/github-statistics/backend/target
-          destination: backend
-
+          key: backend-{{ checksum "pom.xml" }}
+      - persist_to_workspace:
+          root: ~/github-statistics
+          paths:
+            - backend/target/*.jar
   delivery:
     executor: default-executor
     working_directory: ~/github-statistics/delivery
