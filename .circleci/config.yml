@@ -31,7 +31,7 @@ jobs:
       - persist_to_workspace:
           root: ~/github-statistics
           paths:
-            - ~/.m2/repository
+            - frontend/target/*.jar
   build-backend:
     executor: default-executor
     working_directory: ~/github-statistics/backend
@@ -51,13 +51,10 @@ jobs:
           paths:
             - ~/.m2
           key: backend-{{ checksum "pom.xml" }}
-      - run:
-          name: Display contents of Maven repository
-          command: ls -l ~/.m2/repository/dev/graczykmateusz
       - persist_to_workspace:
           root: ~/github-statistics
           paths:
-            - ~/.m2/repository/dev/graczykmateusz
+            - backend/target/*.jar
   delivery:
     executor: default-executor
     working_directory: ~/github-statistics/delivery
@@ -73,11 +70,14 @@ jobs:
           name: Set up Maven repository
           command: mkdir -p ~/.m2/repository
       - run:
-          name: Copy JARs to Maven repository
-          command: cp ~/github-statistics/frontend/target/*.jar ~/.m2/repository/frontend.jar && cp ~/github-statistics/backend/target/*.jar ~/.m2/repository/backend.jar
+          name: Copy frontend JAR
+          command: cp ~/github-statistics/frontend/target/*.jar ~/.m2/repository/dev/graczykmateusz/1.0-SNAPSHOT/frontend-1.0-SNAPSHOT.jar
+      - run:
+          name: Copy backend JAR
+          command: cp ~/github-statistics/backend/target/*.jar ~/.m2/repository/dev/graczykmateusz/1.0-SNAPSHOT/backend-1.0-SNAPSHOT.jar
       - run:
           name: Display contents of Maven repository
-          command: ls -l ~/.m2/repository
+          command: ls -l ~/.m2/repository/dev/graczykmateusz
       - run:
           name: Build
           command: mvn package
