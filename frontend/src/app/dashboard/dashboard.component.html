@@ -16,10 +16,10 @@
     </ul>
     <div [ngbNavOutlet]="nav"></div>
 
-    <input id="login" type="email" class="form-control mb-1 w-25" placeholder="Enter login..."
+    <input id="login" type="email" class="form-control mb-1 w-25 min-width" placeholder="Enter login..."
            [formControl]="loginControl">
 
-    <button id="submit-login" type="submit" class="btn btn-primary w-25"
+    <button id="submit-login" type="submit" class="btn btn-primary w-25 min-width"
             [disabled]="loginControl.invalid"
             (click)="getUserData()">Submit
     </button>
