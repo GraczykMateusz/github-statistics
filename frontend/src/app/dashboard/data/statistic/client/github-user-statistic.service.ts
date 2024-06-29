@@ -16,7 +16,7 @@ export class GithubUserStatisticService {
     return computed(() => this._allGithubUserStatistics());
   }
   
-  updateCount(githubUserStatistic: GithubUserStatistic) {
+  updateCount(githubUserStatistic: GithubUserStatistic): void {
     this._allGithubUserStatistics.update((arr: GithubUserStatistic[]) => {
       // Find the index of the user in the array
       const index = arr.findIndex(v => v.login === githubUserStatistic.login);

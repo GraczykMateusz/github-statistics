@@ -10,9 +10,9 @@ export class ChartPreparerService {
   
   prepare(allGithubUserStatistics: GithubUserStatistic[]): MyChartData {
     return {
-      labels: allGithubUserStatistics.map(value => value.login),
+      labels: allGithubUserStatistics.map(v => v.login),
       datasets: [
-        {data: allGithubUserStatistics.map(value => value.count), label: 'Number of calls'}
+        {data: allGithubUserStatistics.map(v => v.count), label: 'Number of calls'}
       ]
     };
   }
