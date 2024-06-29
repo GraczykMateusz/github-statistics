@@ -1,6 +1,6 @@
 import { computed, inject, Injectable, Signal, signal, WritableSignal } from '@angular/core';
 import { GithubUserStatistic } from '../github-user-statistic';
-import { ApiBuilder } from '../../../../shared/api.builder';
+import { ApiBuilder } from '../../../../shared/data/api.builder';
 import { first } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 

@@ -69,3 +69,13 @@ services:
     depends_on:
       - connect
     restart: always
+  connector-setup:
+    image: curlimages/curl:8.8.0
+    depends_on:
+      - connect
+    entrypoint: >
+      sh -c '
+            while ! curl -s http://connect:8083/; do sleep 10; done;
+            sleep 30;
+            curl -X POST http://connect:8083/connectors -H "Content-Type: application/json" -d "{\"name\": \"postgresql-connector\", \"config\": {\"connector.class\": \"io.debezium.connector.postgresql.PostgresConnector\", \"topic.prefix\": \"pg-changes\", \"database.user\": \"postgres\", \"database.dbname\": \"db_local\", \"table.exclude.list\": \"audit\", \"database.hostname\": \"database\", \"database.password\": \"postgres\", \"plugin.name\": \"pgoutput\"}}"
+            '

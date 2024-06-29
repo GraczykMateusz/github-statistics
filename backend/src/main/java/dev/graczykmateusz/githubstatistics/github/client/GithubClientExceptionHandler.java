@@ -22,8 +22,4 @@ class GithubClientExceptionHandler {
   public Mono<GithubUserClientDataDto> handleRequestError(String login, Throwable e) {
     return Mono.error(new GithubClientException("Request error for user: " + login, e));
   }
-
-  public Mono<GithubUserClientDataDto> handleUnexpectedError(String login, Throwable e) {
-    return Mono.error(new GithubClientException("Unexpected error for user: " + login, e));
-  }
 }
