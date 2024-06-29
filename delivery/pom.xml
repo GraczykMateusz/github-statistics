@@ -22,16 +22,12 @@
             <groupId>${project.groupId}</groupId>
             <artifactId>frontend</artifactId>
             <version>${project.version}</version>
-            <type>jar</type>
-            <classifier>jar-with-dependencies</classifier>
         </dependency>
 
         <dependency>
             <groupId>${project.groupId}</groupId>
             <artifactId>backend</artifactId>
             <version>${project.version}</version>
-            <type>jar</type>
-            <classifier>jar-with-dependencies</classifier>
         </dependency>
     </dependencies>
 
