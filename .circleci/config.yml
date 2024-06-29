@@ -65,6 +65,12 @@ jobs:
       - attach_workspace:
           at: ~/github-statistics
       - run:
+          name: Set up Maven repository
+          command: mkdir -p ~/.m2/repository
+      - run:
+          name: Copy JARs to Maven repository
+          command: cp frontend/target/*.jar ~/.m2/repository/frontend.jar && cp backend/target/*.jar ~/.m2/repository/backend.jar
+      - run:
           name: Build
           command: mvn verify
 workflows:
