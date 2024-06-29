@@ -6,32 +6,73 @@ executors:
       - image: cimg/openjdk:21.0-browsers
 
 jobs:
-  build:
+  build-frontend:
     executor: default-executor
-    working_directory: ~/github-statistics
+    working_directory: ~/github-statistics/frontend
     steps:
-      - checkout
-      - run:
-          name: Spotless check
-          command: mvn -f backend/pom.xml spotless:check
+      - checkout:
+          path: ~/repo
+      - restore_cache:
+          paths:
+            - ~/repo/frontend/node_modules
+          keys:
+            - frontend-{{ checksum "package-lock.json" }}
       - run:
           name: Install deps
-          command: | 
-            cd frontend
-            npm install --package-lock
+          command: npm install --package-lock
       - run:
           name: Ng Lint
           command: npm run lint
+      - save_cache:
+          paths:
+            - ~/repo/frontend/node_modules
+          key: frontend-{{ checksum "package-lock.json" }}
       - run:
-          name: Test and build
+          name: Build
           command: |
-            cd ..
-            mvn verify
+            mvn build
+    build-backend:
+      executor: default-executor
+      working_directory: ~/github-statistics/backend
+      steps:
+        - checkout:
+            path: ~/repo
+        - restore_cache:
+            paths:
+              - ~/.m2
+            keys:
+              - act-pl-{{ checksum "pom.xml" }}
+        - run:
+            name: Spotless check
+            command: mvn spotless:check
+        - run:
+            name: Test and build
+            command: mvn verify
+        - save_cache:
+            paths:
+              - ~/.m2
+            key: act-pl-{{ checksum "pom.xml" }}
+    delivery:
+      executor: default-executor
+      working_directory: ~/github-statistics/delivery
+      steps:
+        - checkout
 
 workflows:
   main:
     jobs:
-      - build:
+      - build-frontend:
+          filters:
+            branches:
+              only: master
+      - build-backend:
+          filters:
+            branches:
+              only: master
+      - delivery:
+          requires:
+            - build-frontend
+            - build-backend
           filters:
             branches:
               only: master
