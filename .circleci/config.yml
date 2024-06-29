@@ -55,6 +55,12 @@ jobs:
     steps:
       - checkout
       - run:
+          name: Copy frontend artifact
+          command: cp ~/github-statistics/frontend/target/*.jar ~/github-statistics/delivery/
+      - run:
+          name: Copy backend artifact
+          command: cp ~/github-statistics/backend/target/*.jar ~/github-statistics/delivery/
+      - run:
           name: Build
           command: mvn verify
 workflows:
