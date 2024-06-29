@@ -64,9 +64,6 @@ jobs:
       - attach_workspace:
           at: ~/github-statistics
       - run:
-          name: Display contents of Maven repository
-          command: ls -l ~/github-statistics
-      - run:
           name: Install frontend JAR to local Maven repository
           command: |
             cd ..
@@ -89,11 +86,23 @@ jobs:
               -Dpackaging=jar \
               -DgeneratePom=true
       - run:
-          name: Display contents of Maven repository
-          command: ls -l ~/.m2/repository/dev/graczykmateusz/frontend/1.0-SNAPSHOT
-      - run:
           name: Build
           command: mvn package
+      - persist_to_workspace:
+          root: ~/github-statistics
+          paths:
+            - delivery/target/*.jar
+    e2e:
+      executor: default-executor
+      working_directory: ~/github-statistics/e2e
+      steps:
+        - checkout:
+            path: ~/github-statistics
+        - attach_workspace:
+            at: ~/github-statistics
+        - run:
+            name: Test
+            command: mvn test
 workflows:
   main:
     jobs:
@@ -109,6 +118,12 @@ workflows:
           requires:
             - build-frontend
             - build-backend
+          filters:
+            branches:
+              only: master
+      - e2e:
+          requires:
+            - delivery
           filters:
             branches:
               only: master
