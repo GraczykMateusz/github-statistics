@@ -92,7 +92,7 @@ jobs:
           root: ~/github-statistics
           paths:
             - delivery/target/*.jar
-    e2e:
+    endToEnd:
       executor: default-executor
       working_directory: ~/github-statistics/e2e
       steps:
@@ -121,7 +121,7 @@ workflows:
           filters:
             branches:
               only: master
-      - e2e:
+      - endToEnd:
           requires:
             - delivery
           filters:
