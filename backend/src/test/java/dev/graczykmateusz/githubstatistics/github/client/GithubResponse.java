@@ -1,7 +1,6 @@
 package dev.graczykmateusz.githubstatistics.github.client;
 
 import lombok.AccessLevel;
-import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
@@ -9,7 +8,7 @@ class GithubResponse {
 
   // language=JSON
   public static final String JSON =
-    """
+      """
     {
       "login": "GraczykMateusz",
       "id": 43554417,
