@@ -108,7 +108,7 @@ jobs:
           background: true
       - run:
           name: Wait for Services
-          command: sleep 500
+          command: sleep 30
       - run:
           name: Create PostgreSQL Connector
           command: |
