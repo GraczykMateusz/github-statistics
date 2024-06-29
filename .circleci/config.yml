@@ -53,11 +53,11 @@ jobs:
           key: backend-{{ checksum "pom.xml" }}
       - run:
           name: Display contents of Maven repository
-          command: ls -l ~/.m2/repository
-#      - persist_to_workspace:
-#          root: ~/github-statistics
-#          paths:
-#            - ~/.m2/repository
+          command: ls -l ~/.m2/repository/dev/graczykmateusz
+      - persist_to_workspace:
+          root: ~/github-statistics
+          paths:
+            - ~/.m2/repository/dev/graczykmateusz
   delivery:
     executor: default-executor
     working_directory: ~/github-statistics/delivery
