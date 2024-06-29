@@ -42,7 +42,7 @@ jobs:
           name: Spotless check
           command: mvn spotless:check
       - run:
-          name: Test and build
+          name: Build
           command: mvn clean verify
       - save_cache:
           paths:
@@ -54,7 +54,9 @@ jobs:
     working_directory: ~/github-statistics/delivery
     steps:
       - checkout
-
+      - run:
+          name: Build
+          command: mvn verify
 workflows:
   main:
     jobs:
