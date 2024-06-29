@@ -102,7 +102,7 @@ jobs:
           at: ~/github-statistics
       - run:
           name: Test
-          command: mvn test
+          command: mvn verify
 workflows:
   main:
     jobs:
