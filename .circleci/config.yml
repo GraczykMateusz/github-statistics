@@ -69,8 +69,9 @@ jobs:
       - run:
           name: Install frontend JAR to local Maven repository
           command: |
+            cd ..
             mvn install:install-file \
-              -Dfile=~/github-statistics/frontend/target/frontend.jar \
+              -Dfile=frontend/target/frontend.jar \
               -DgroupId=dev.graczykmateusz \
               -DartifactId=frontend \
               -Dversion=1.0-SNAPSHOT \
@@ -79,8 +80,9 @@ jobs:
       - run:
           name: Install backend JAR to local Maven repository
           command: |
+            cd ..
             mvn install:install-file \
-              -Dfile=~/github-statistics/backend/target/backend.jar \
+              -Dfile=backend/target/backend.jar \
               -DgroupId=dev.graczykmateusz \
               -DartifactId=backend \
               -Dversion=1.0-SNAPSHOT \
