@@ -114,7 +114,7 @@ jobs:
           command: |
             cd ..
             docker run --network github-statistics_default curlimages/curl \
-            curl -X POST -H "Content-Type: application/json" --data @postgres-connector.json http://github-statistics-connect-1:8083/connectors          env:
+            curl -X POST -H "Content-Type: application/json" --data @postgres-connector.json http://github-statistics-connect-1:8083/connectors
             CURL_CONNECT_TIMEOUT: 30
       - run:
           name: Test
