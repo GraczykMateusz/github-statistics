@@ -74,6 +74,9 @@ jobs:
           name: Copy JARs to Maven repository
           command: cp ~/github-statistics/frontend/target/*.jar ~/.m2/repository/frontend.jar && cp ~/github-statistics/backend/target/*.jar ~/.m2/repository/backend.jar
       - run:
+          name: Display contents of Maven repository
+          command: ls -l ~/.m2/repository
+      - run:
           name: Build
           command: mvn verify
 workflows:
