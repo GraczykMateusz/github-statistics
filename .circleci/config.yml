@@ -32,8 +32,6 @@ jobs:
           root: ~/github-statistics
           paths:
             - frontend/target/*.jar
-            - ~/.m2
-
   build-backend:
     executor: default-executor
     working_directory: ~/github-statistics/backend
@@ -57,7 +55,6 @@ jobs:
           root: ~/github-statistics
           paths:
             - backend/target/*.jar
-            - ~/.m2
   delivery:
     executor: default-executor
     working_directory: ~/github-statistics/delivery
