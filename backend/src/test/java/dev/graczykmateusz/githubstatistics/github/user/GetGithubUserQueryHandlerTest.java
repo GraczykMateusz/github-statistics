@@ -1,12 +1,13 @@
 package dev.graczykmateusz.githubstatistics.github.user;
 
 import dev.graczykmateusz.githubstatistics.MockEventPublisher;
-import dev.graczykmateusz.githubstatistics.MockGithubClient;
 import dev.graczykmateusz.githubstatistics.abstraction.query.QueryHandler;
 import dev.graczykmateusz.githubstatistics.github.user.dto.GithubUserDto;
 import dev.graczykmateusz.githubstatistics.github.user.event.GetGithubUserWasExecuted;
 import dev.graczykmateusz.githubstatistics.github.user.query.GetGithubUser;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import reactor.core.publisher.Mono;
 import reactor.test.StepVerifier;
 
 import java.time.Instant;
@@ -23,13 +24,18 @@ class GetGithubUserQueryHandlerTest {
       new GithubUserConfiguration().getGithubUserQueryHandler(githubClient, eventPublisher);
 
   @Test
+  @DisplayName(
+      "Should handle GetGithubUser request and "
+          + "return expected GithubUserDto when github user exists")
   void handle() {
     var getGithubUser = new GetGithubUser("graczykmateusz");
 
     var expectedGithubUser =
         new GithubUserDto(1L, "graczykmateusz", "GraczykMateusz", "user", "xxx", Instant.MAX, 1.2);
 
-    StepVerifier.create(handler.handle(getGithubUser))
+    Mono<GithubUserDto> result = handler.handle(getGithubUser);
+
+    StepVerifier.create(result)
         .expectNext(expectedGithubUser)
         .verifyComplete();
 
