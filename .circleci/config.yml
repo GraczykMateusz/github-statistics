@@ -68,7 +68,7 @@ jobs:
           command: ls -l ~/github-statistics
       - run:
           name: Set up Maven repository
-          command: mkdir -p ~/.m2/repository
+          command: mkdir -p ~/.m2/repository/dev/graczykmateusz/1.0-SNAPSHOT/
       - run:
           name: Copy frontend JAR
           command: cp ~/github-statistics/frontend/target/*.jar ~/.m2/repository/dev/graczykmateusz/1.0-SNAPSHOT/frontend-1.0-SNAPSHOT.jar
