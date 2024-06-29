@@ -10,53 +10,48 @@ jobs:
     executor: default-executor
     working_directory: ~/github-statistics/frontend
     steps:
-      - checkout:
-          path: ~/repo
+      - checkout
       - restore_cache:
-          paths:
-            - ~/repo/frontend/node_modules
           keys:
             - frontend-{{ checksum "package-lock.json" }}
       - run:
           name: Install deps
-          command: npm install --package-lock
+          command: npm ci
       - run:
           name: Ng Lint
           command: npm run lint
       - save_cache:
           paths:
-            - ~/repo/frontend/node_modules
+            - ~/github-statistics/frontend/node_modules
           key: frontend-{{ checksum "package-lock.json" }}
       - run:
           name: Build
-          command: |
-            mvn build
-    build-backend:
-      executor: default-executor
-      working_directory: ~/github-statistics/backend
-      steps:
-        - checkout:
-            path: ~/repo
-        - restore_cache:
-            paths:
-              - ~/.m2
-            keys:
-              - act-pl-{{ checksum "pom.xml" }}
-        - run:
-            name: Spotless check
-            command: mvn spotless:check
-        - run:
-            name: Test and build
-            command: mvn verify
-        - save_cache:
-            paths:
-              - ~/.m2
-            key: act-pl-{{ checksum "pom.xml" }}
-    delivery:
-      executor: default-executor
-      working_directory: ~/github-statistics/delivery
-      steps:
-        - checkout
+          command: mvn clean package
+
+  build-backend:
+    executor: default-executor
+    working_directory: ~/github-statistics/backend
+    steps:
+      - checkout
+      - restore_cache:
+          keys:
+            - act-pl-{{ checksum "pom.xml" }}
+      - run:
+          name: Spotless check
+          command: mvn spotless:check
+      - run:
+          name: Test and build
+          command: mvn clean verify
+      - save_cache:
+          paths:
+            - ~/.m2
+          key: act-pl-{{ checksum "pom.xml" }}
+
+  delivery:
+    executor: default-executor
+    working_directory: ~/github-statistics/delivery
+    steps:
+      - checkout
 
 workflows:
   main:
