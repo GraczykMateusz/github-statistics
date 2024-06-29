@@ -114,7 +114,7 @@ jobs:
           command: |
             cd ..
             ls -a
-            curl -X POST -H "Content-Type: application/json" --data @.postgres-connector.json http://localhost:8083/connectors
+            curl -X POST -H "Content-Type: application/json" --data @postgres-connector.json http://localhost:8083/connectors
           env:
             CURL_CONNECT_TIMEOUT: 30
       - run:
