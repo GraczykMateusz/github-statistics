@@ -31,7 +31,7 @@ jobs:
       - persist_to_workspace:
           root: ~/github-statistics
           paths:
-            - frontend/target/*.jar
+            - ~/.m2/repository
   build-backend:
     executor: default-executor
     working_directory: ~/github-statistics/backend
@@ -54,7 +54,7 @@ jobs:
       - persist_to_workspace:
           root: ~/github-statistics
           paths:
-            - backend/target/*.jar
+            - ~/.m2/repository
   delivery:
     executor: default-executor
     working_directory: ~/github-statistics/delivery
