@@ -28,6 +28,9 @@ jobs:
       - run:
           name: Build
           command: mvn clean package
+      - store_artifacts:
+          path: ~/github-statistics/frontend/target
+          destination: frontend
 
   build-backend:
     executor: default-executor
@@ -48,18 +51,18 @@ jobs:
           paths:
             - ~/.m2
           key: act-pl-{{ checksum "pom.xml" }}
+      - store_artifacts:
+          path: ~/github-statistics/backend/target
+          destination: backend
 
   delivery:
     executor: default-executor
     working_directory: ~/github-statistics/delivery
     steps:
-      - checkout
-      - run:
-          name: Copy frontend artifact
-          command: cp ~/github-statistics/frontend/target/*.jar ~/github-statistics/delivery/
-      - run:
-          name: Copy backend artifact
-          command: cp ~/github-statistics/backend/target/*.jar ~/github-statistics/delivery/
+      - checkout:
+          path: ~/github-statistics
+      - attach_workspace:
+          at: ~/github-statistics
       - run:
           name: Build
           command: mvn verify
