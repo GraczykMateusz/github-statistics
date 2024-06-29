@@ -15,7 +15,7 @@ export class GithubUserStatisticListenerService {
   private readonly _githubUserStatistic: WritableSignal<GithubUserStatistic | undefined> = signal(undefined);
   
   constructor() {
-    this.stompClient.connect({}, (frame) => {
+    this.stompClient.connect({}, () => {
       this.stompClient.subscribe(environment.topicGithubUserStatistic, (message) => {
         try {
           const parsedMessage = JSON.parse(message.body) as GithubUserStatistic;

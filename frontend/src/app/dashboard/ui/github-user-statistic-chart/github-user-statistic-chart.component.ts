@@ -5,7 +5,8 @@ import { GithubUserStatisticService } from '../../data/statistic/client/github-u
 import { GithubUserStatistic } from '../../data/statistic/github-user-statistic';
 import { AsyncPipe } from '@angular/common';
 import { ChartPreparerService } from './data/chart-preparer.service';
-import { ChartConfiguration, ChartData } from 'chart.js';
+import { ChartConfiguration } from 'chart.js';
+import { MyChartData } from './data/my-chart-data';
 
 @Component({
   selector: 'app-github-user-statistic-chart',
@@ -28,7 +29,7 @@ export class GithubUserStatisticChartComponent implements OnInit {
   private readonly updatedGithubUserStatistic: Signal<GithubUserStatistic | undefined> =
     this.githubUserStatisticListenerService.githubUserStatistic;
   
-  readonly chart: Signal<ChartData<any>> = computed(
+  readonly chart: Signal<MyChartData> = computed(
     () => this.chartPreparerService.prepare(this.allGithubUserStatistics()));
   
   readonly barChartOptions: ChartConfiguration<'bar'>['options'] = this.chartPreparerService.getOptions();

@@ -1,4 +1,4 @@
-export type GithubUserStatistic = {
+export interface GithubUserStatistic {
   login: string,
   count: number;
 }

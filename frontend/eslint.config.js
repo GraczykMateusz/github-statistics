@@ -27,6 +27,7 @@ module.exports = tseslint.config(
           "after": true
         }
       ],
+      "@typescript-eslint/explicit-function-return-type": "error",
       "no-debugger": "error",
       "no-bitwise": "error",
       "no-console": "warn",
