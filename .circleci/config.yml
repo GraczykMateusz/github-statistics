@@ -92,17 +92,17 @@ jobs:
           root: ~/github-statistics
           paths:
             - delivery/target/*.jar
-    endToEnd:
-      executor: default-executor
-      working_directory: ~/github-statistics/e2e
-      steps:
-        - checkout:
-            path: ~/github-statistics
-        - attach_workspace:
-            at: ~/github-statistics
-        - run:
-            name: Test
-            command: mvn test
+  e2e:
+    executor: default-executor
+    working_directory: ~/github-statistics/e2e
+    steps:
+      - checkout:
+          path: ~/github-statistics
+      - attach_workspace:
+          at: ~/github-statistics
+      - run:
+          name: Test
+          command: mvn test
 workflows:
   main:
     jobs:
@@ -121,7 +121,7 @@ workflows:
           filters:
             branches:
               only: master
-      - endToEnd:
+      - e2e:
           requires:
             - delivery
           filters:
