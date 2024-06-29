@@ -65,6 +65,9 @@ jobs:
       - attach_workspace:
           at: ~/github-statistics
       - run:
+          name: Display contents of Maven repository
+          command: ls -l ~/github-statistics
+      - run:
           name: Set up Maven repository
           command: mkdir -p ~/.m2/repository
       - run:
