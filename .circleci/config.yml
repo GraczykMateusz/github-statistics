@@ -67,17 +67,28 @@ jobs:
           name: Display contents of Maven repository
           command: ls -l ~/github-statistics
       - run:
-          name: Set up Maven repository
-          command: mkdir -p ~/.m2/repository/dev/graczykmateusz/1.0-SNAPSHOT/
+          name: Install frontend JAR to local Maven repository
+          command: |
+            mvn install:install-file \
+              -Dfile=~/github-statistics/frontend/target/frontend.jar \
+              -DgroupId=dev.graczykmateusz \
+              -DartifactId=frontend \
+              -Dversion=1.0-SNAPSHOT \
+              -Dpackaging=jar \
+              -DgeneratePom=true
       - run:
-          name: Copy frontend JAR
-          command: cp ~/github-statistics/frontend/target/*.jar ~/.m2/repository/dev/graczykmateusz/1.0-SNAPSHOT/frontend-1.0-SNAPSHOT.jar
-      - run:
-          name: Copy backend JAR
-          command: cp ~/github-statistics/backend/target/*.jar ~/.m2/repository/dev/graczykmateusz/1.0-SNAPSHOT/backend-1.0-SNAPSHOT.jar
+          name: Install backend JAR to local Maven repository
+          command: |
+            mvn install:install-file \
+              -Dfile=~/github-statistics/backend/target/backend.jar \
+              -DgroupId=dev.graczykmateusz \
+              -DartifactId=backend \
+              -Dversion=1.0-SNAPSHOT \
+              -Dpackaging=jar \
+              -DgeneratePom=true
       - run:
           name: Display contents of Maven repository
-          command: ls -l ~/.m2/repository/dev/graczykmateusz
+          command: ls -l ~/.m2/repository/dev/graczykmateusz/frontend/1.0-SNAPSHOT
       - run:
           name: Build
           command: mvn package
