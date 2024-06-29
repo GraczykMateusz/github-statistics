@@ -115,8 +115,8 @@ jobs:
           name: Create PostgreSQL Connector
           command: |
             cd ..
-            curl -X POST -H "Content-Type: application/json" --data @postgres-connector.json http://localhost:8083/connectors
-          env:
+            docker run --network github-statistics_default curlimages/curl \
+            curl -X POST -H "Content-Type: application/json" --data @postgres-connector.json http://github-statistics-connect-1:8083/connectors          env:
             CURL_CONNECT_TIMEOUT: 30
       - run:
           name: Test
