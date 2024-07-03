@@ -54,7 +54,7 @@
                             <executable>java</executable>
                             <arguments>
                                 <argument>-jar</argument>
-                                <argument>${project.basedir}/../delivery/target/delivery-${project.version}.jar</argument>
+                                <argument>../delivery/target/delivery-${project.version}.jar</argument>
                             </arguments>
                             <async>true</async>
                         </configuration>
