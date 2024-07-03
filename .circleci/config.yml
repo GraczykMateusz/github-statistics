@@ -8,16 +8,17 @@ executors:
 jobs:
   build-frontend:
     executor: default-executor
-    working_directory: ~/github-statistics/frontend
+    working_directory: ~/github-statistics
     steps:
-      - checkout:
-          path: ~/github-statistics
+      - checkout
       - restore_cache:
           keys:
             - frontend-{{ checksum "package-lock.json" }}
       - run:
           name: Install deps
-          command: npm ci
+          command:
+            cd frontend |
+            npm ci
 #      - run:
 #          name: Ng Lint
 #          command: npm run lint
@@ -27,17 +28,18 @@ jobs:
           key: frontend-{{ checksum "package-lock.json" }}
       - run:
           name: Build
-          command: mvn clean install
+          command:
+            cd frontend |
+            mvn clean install
       - persist_to_workspace:
           root: ~/github-statistics
           paths:
             - frontend/target/*.jar
   build-backend:
     executor: default-executor
-    working_directory: ~/github-statistics/backend
+    working_directory: ~/github-statistics
     steps:
-      - checkout:
-          path: ~/github-statistics
+      - checkout
       - restore_cache:
           keys:
             - backend-{{ checksum "pom.xml" }}
@@ -46,7 +48,9 @@ jobs:
 #          command: mvn spotless:check
       - run:
           name: Build
-          command: mvn clean install
+          command:
+            cd backend |
+            mvn clean install
       - save_cache:
           paths:
             - ~/.m2
@@ -57,16 +61,14 @@ jobs:
             - backend/target/*.jar
   delivery:
     executor: default-executor
-    working_directory: ~/github-statistics/delivery
+    working_directory: ~/github-statistics
     steps:
-      - checkout:
-          path: ~/github-statistics
+      - checkout
       - attach_workspace:
           at: ~/github-statistics
       - run:
           name: Install frontend JAR to local Maven repository
-          command: |
-            cd ..
+          command:
             mvn install:install-file \
               -Dfile=frontend/target/frontend-1.0-SNAPSHOT.jar \
               -DgroupId=dev.graczykmateusz \
@@ -76,8 +78,7 @@ jobs:
               -DgeneratePom=true
       - run:
           name: Install backend JAR to local Maven repository
-          command: |
-            cd ..
+          command:
             mvn install:install-file \
               -Dfile=backend/target/backend-1.0-SNAPSHOT.jar \
               -DgroupId=dev.graczykmateusz \
@@ -87,17 +88,18 @@ jobs:
               -DgeneratePom=true
       - run:
           name: Build
-          command: mvn package
+          command:
+            cd delivery |
+            mvn package
       - persist_to_workspace:
           root: ~/github-statistics
           paths:
             - delivery/target/*.jar
   e2e:
     executor: default-executor
-    working_directory: ~/github-statistics/e2e
+    working_directory: ~/github-statistics
     steps:
-      - checkout:
-          path: ~/github-statistics
+      - checkout
       - attach_workspace:
           at: ~/github-statistics
       - setup_remote_docker
@@ -107,7 +109,9 @@ jobs:
             docker-compose up -d
       - run:
           name: Test
-          command: mvn verify
+          command:
+            cd e2e |
+            mvn verify
 
 workflows:
   main:
