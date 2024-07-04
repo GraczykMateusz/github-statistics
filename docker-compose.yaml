@@ -33,7 +33,7 @@ services:
       - zookeeper
     restart: always
   connect:
-    image: debezium/connect:2.6.2.Final
+    image: debezium/connect:2.7.0.Final
     ports:
       - "8083:8083"
     links:
