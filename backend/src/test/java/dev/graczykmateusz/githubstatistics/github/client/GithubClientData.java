@@ -6,9 +6,9 @@ import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
-class ExpectedGithubClientData {
+class GithubClientData {
 
-  public static final GithubUserClientDataDto DATA =
+  public static final GithubUserClientDataDto EXPECTED_DATA =
       new GithubUserClientDataDto(
           43554417L,
           "GraczykMateusz",

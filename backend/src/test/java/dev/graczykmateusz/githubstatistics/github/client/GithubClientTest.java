@@ -45,11 +45,11 @@ class GithubClientTest {
         new MockResponse()
             .setResponseCode(HttpStatus.OK.value())
             .setHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
-            .setBody(GithubResponse.JSON));
+            .setBody(GithubResponse.Ok.JSON));
 
     Mono<GithubUserClientDataDto> result = client.getUser("testuser");
 
-    StepVerifier.create(result).expectNext(ExpectedGithubClientData.DATA).verifyComplete();
+    StepVerifier.create(result).expectNext(GithubClientData.EXPECTED_DATA).verifyComplete();
 
     RecordedRequest recordedRequest = mockWebServer.takeRequest();
     assertThat(recordedRequest.getPath()).isEqualTo("/users/testuser");
@@ -62,7 +62,7 @@ class GithubClientTest {
         new MockResponse()
             .setResponseCode(HttpStatus.NOT_FOUND.value())
             .setHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
-            .setBody(StatusNotFoundResponse.JSON));
+            .setBody(GithubResponse.NotFound.JSON));
 
     Mono<GithubUserClientDataDto> result = client.getUser("testuser");
 
@@ -79,7 +79,7 @@ class GithubClientTest {
         new MockResponse()
             .setResponseCode(HttpStatus.INTERNAL_SERVER_ERROR.value())
             .setHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
-            .setBody(StatusInternalServerErrorResponse.JSON));
+            .setBody(GithubResponse.InternalServerError.JSON));
 
     Mono<GithubUserClientDataDto> result = client.getUser("testuser");
 
@@ -96,7 +96,7 @@ class GithubClientTest {
         new MockResponse()
             .setResponseCode(HttpStatus.BAD_REQUEST.value())
             .setHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
-            .setBody(StatusBadRequestResponse.JSON));
+            .setBody(GithubResponse.BadRequest.JSON));
 
     Mono<GithubUserClientDataDto> result = client.getUser("testuser");
 

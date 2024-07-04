@@ -18,7 +18,7 @@ class GithubUserStatisticKafkaListener {
       topics = "pg-changes.public.github_user_statistic",
       groupId = "github-user-statistic-consumer")
   void consume(GithubUserStatisticDto payload) {
-    log.info("Received statistic: " + payload);
+    log.info("Received statistic: {}", payload);
     messagingTemplate.convertAndSend(TOPIC, payload);
   }
 }
