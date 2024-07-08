@@ -102,14 +102,8 @@ jobs:
           at: ~/github-statistics
       - setup_remote_docker
       - run:
-          name: ls
-          command: ls -a
-      - run:
-          name: cd ..
-          command: cd ..
-      - run:
-          name: ls
-          command: ls -a
+          name: google-chrome --version
+          command: google-chrome --version
       - run:
           name: Run Docker Compose
           command: |
