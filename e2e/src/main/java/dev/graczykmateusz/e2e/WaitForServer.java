@@ -8,10 +8,19 @@ public class WaitForServer {
   public static void main(String[] args) throws InterruptedException {
     String host = "localhost";
     int port = 8080; // Change this to your server's port
+    int timeoutSeconds = 15;
+    long startTime = System.currentTimeMillis();
 
     while (!isServerRunning(host, port)) {
       System.out.println("Waiting for the server to start...");
-      Thread.sleep(5000);
+      Thread.sleep(5000); // Check every 5 seconds
+
+      // Check if timeout exceeded
+      long elapsedTime = System.currentTimeMillis() - startTime;
+      if (elapsedTime > timeoutSeconds * 1000) {
+        System.out.println("Timeout reached. Server did not start within " + timeoutSeconds + " seconds.");
+        return;
+      }
     }
     System.out.println("Server has started");
   }
