@@ -1,4 +1,4 @@
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.assertj.core.api.Assertions.assertThat;
 
 import io.github.bonigarcia.wdm.WebDriverManager;
 import java.time.Duration;
@@ -35,25 +35,24 @@ class HomePageIT {
   @Test
   void test() {
     driver.get("http://localhost:8080");
-    
+
     WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(5));
-    
+
+    // Chart exists
+    WebElement chart = driver.findElement(By.id("github-user-statistic-chart"));
+    assertThat(chart.isDisplayed()).isTrue();
+
     // Find the button using XPath
-    WebElement button = wait.until(ExpectedConditions.elementToBeClickable(By.xpath("/html/body/app-root/button")));
-    
+    WebElement input = wait.until(ExpectedConditions.elementToBeClickable(By.id("login")));
+
     // Click the button
-    button.click();
-    
-    wait.until(ExpectedConditions.textToBePresentInElementLocated(By.tagName("h1"), "x"));
-    
-    // Get the h1 element
-    WebElement h1Element = driver.findElement(By.tagName("h1"));
-    
-    // Get the text inside the h1 element
-    String h1Text = h1Element.getText();
-    
-    assertEquals("x", h1Text);
-    
+    input.sendKeys("graczykmateusz");
+
+    WebElement submitLogin =
+        wait.until(ExpectedConditions.elementToBeClickable(By.id("submit-login")));
+
+    submitLogin.click();
+
     driver.quit();
   }
 }

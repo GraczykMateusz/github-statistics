@@ -1,6 +1,7 @@
 <div class="chart-container">
     @if (chart()) {
-        <canvas baseChart
+        <canvas id="github-user-statistic-chart"
+                baseChart
                 [data]="chart()"
                 [options]="barChartOptions"
                 [type]="'bar'">
