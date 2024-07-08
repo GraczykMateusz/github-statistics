@@ -108,6 +108,9 @@ jobs:
           name: cd ..
           command: cd ..
       - run:
+          name: ls
+          command: ls -a
+      - run:
           name: Run Docker Compose
           command: |
             docker-compose up -d
