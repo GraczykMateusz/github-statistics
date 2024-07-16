@@ -1,14 +1,17 @@
 import static org.assertj.core.api.Assertions.assertThat;
 
 import io.github.bonigarcia.wdm.WebDriverManager;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 import java.time.Duration;
+import java.util.List;
+import javax.imageio.ImageIO;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
+import org.openqa.selenium.*;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
@@ -25,6 +28,7 @@ class HomePageIT {
   @BeforeEach
   void setup() {
     driver = new ChromeDriver();
+    driver.manage().window().setSize(new Dimension(1920, 1080));
   }
 
   @AfterEach
@@ -33,26 +37,50 @@ class HomePageIT {
   }
 
   @Test
-  void test() {
-    driver.get("http://localhost:8080");
+  void shouldDisplayChartWithData() throws IOException {
+    driver.get("http://localhost:8081");
 
     WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(5));
 
     // Chart exists
-    WebElement chart = driver.findElement(By.id("github-user-statistic-chart"));
-    assertThat(chart.isDisplayed()).isTrue();
+    WebElement chartCanvas = driver.findElement(By.id("github-user-statistic-chart"));
 
-    // Find the button using XPath
+    // Find the button
     WebElement input = wait.until(ExpectedConditions.elementToBeClickable(By.id("login")));
 
-    // Click the button
+    // Send data to backend
     input.sendKeys("graczykmateusz");
-
     WebElement submitLogin =
         wait.until(ExpectedConditions.elementToBeClickable(By.id("submit-login")));
-
     submitLogin.click();
 
-    driver.quit();
+    // Make entire page screenshot
+    File screenshot = ((TakesScreenshot) driver).getScreenshotAs(OutputType.FILE);
+    BufferedImage fullImage = ImageIO.read(screenshot);
+
+    // Get the location of chart on the page
+    Point point = chartCanvas.getLocation();
+
+    // Get width and height of the chart
+    int chartWidth = chartCanvas.getSize().getWidth();
+    int chartHeight = chartCanvas.getSize().getHeight();
+
+    // Crop the entire page screenshot to get only chart screenshot
+    BufferedImage chartScreenshot =
+        fullImage.getSubimage(point.getX(), point.getY(), chartWidth, chartHeight);
+
+    Dimension chartDimension = chartCanvas.getSize();
+    int chartCenterX = chartDimension.getWidth() / 2;
+    int chartCenterY = chartDimension.getHeight() / 2;
+
+    int chartCenterColor = chartScreenshot.getRGB(chartCenterX, chartCenterY);
+
+    int blue = chartCenterColor & 0xff;
+    int green = (chartCenterColor & 0xff00) >> 8;
+    int red = (chartCenterColor & 0xff0000) >> 16;
+    int alpha = (chartCenterColor & 0xff000000) >>> 24;
+
+    assertThat(List.of(red, green, blue, alpha))
+        .containsExactlyElementsOf(List.of(154, 208, 245, 255));
   }
 }

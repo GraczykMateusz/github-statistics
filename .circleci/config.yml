@@ -102,13 +102,6 @@ jobs:
           at: ~/github-statistics
       - setup_remote_docker
       - run:
-          name: google-chrome --version
-          command: google-chrome --version
-      - run:
-          name: Run Docker Compose
-          command: |
-            docker-compose up -d
-      - run:
           name: Test
           command: mvn verify
 

@@ -19,6 +19,11 @@
 
     <dependencies>
         <dependency>
+            <groupId>dev.graczykmateusz</groupId>
+            <artifactId>delivery</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
+        <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
         </dependency>
@@ -54,7 +59,41 @@
                 <version>3.2.0</version>
                 <executions>
                     <execution>
-                        <id>start-app</id>
+                        <id>docker-compose-e2e-up</id>
+                        <phase>pre-integration-test</phase>
+                        <goals>
+                            <goal>exec</goal>
+                        </goals>
+                        <configuration>
+                            <executable>docker-compose</executable>
+                            <arguments>
+                                <argument>-f</argument>
+                                <argument>../docker-compose.yaml</argument>
+                                <argument>-f</argument>
+                                <argument>../docker-compose.e2e.yaml</argument>
+                                <argument>up</argument>
+                                <argument>-d</argument>
+                            </arguments>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>docker-build</id>
+                        <phase>pre-integration-test</phase>
+                        <goals>
+                            <goal>exec</goal>
+                        </goals>
+                        <configuration>
+                            <executable>docker</executable>
+                            <arguments>
+                                <argument>build</argument>
+                                <argument>-t</argument>
+                                <argument>github-statistics-app:latest</argument>
+                                <argument>${project.basedir}/..</argument>
+                            </arguments>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>wait-for-connector</id>
                         <phase>pre-integration-test</phase>
                         <goals>
                             <goal>exec</goal>
@@ -62,10 +101,30 @@
                         <configuration>
                             <executable>java</executable>
                             <arguments>
-                                <argument>-jar</argument>
-                                <argument>${parent.basedir}/delivery/target/delivery-${project.version}.jar</argument>
+                                <argument>-cp</argument>
+                                <argument>${project.build.outputDirectory}</argument>
+                                <argument>dev.graczykmateusz.e2e.WaitForConnector</argument>
                             </arguments>
-                            <async>true</async>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>docker-run</id>
+                        <phase>pre-integration-test</phase>
+                        <goals>
+                            <goal>exec</goal>
+                        </goals>
+                        <configuration>
+                            <executable>docker</executable>
+                            <arguments>
+                                <argument>run</argument>
+                                <argument>--name</argument>
+                                <argument>github-statistics-app</argument>
+                                <argument>--net=github-statistics_default</argument>
+                                <argument>-p</argument>
+                                <argument>8081:8081</argument>
+                                <argument>-d</argument>
+                                <argument>github-statistics-app:latest</argument>
+                            </arguments>
                         </configuration>
                     </execution>
                     <execution>
@@ -78,8 +137,36 @@
                             <executable>java</executable>
                             <arguments>
                                 <argument>-cp</argument>
-                                <argument>${project.build.directory}/classes</argument>
+                                <argument>${project.build.outputDirectory}</argument>
                                 <argument>dev.graczykmateusz.e2e.WaitForServer</argument>
+                            </arguments>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>docker-stop</id>
+                        <phase>clean</phase>
+                        <goals>
+                            <goal>exec</goal>
+                        </goals>
+                        <configuration>
+                            <executable>docker</executable>
+                            <arguments>
+                                <argument>stop</argument>
+                                <argument>github-statistics-app</argument>
+                            </arguments>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>docker-remove-after</id>
+                        <phase>clean</phase>
+                        <goals>
+                            <goal>exec</goal>
+                        </goals>
+                        <configuration>
+                            <executable>docker</executable>
+                            <arguments>
+                                <argument>rm</argument>
+                                <argument>github-statistics-app</argument>
                             </arguments>
                         </configuration>
                     </execution>

@@ -1,0 +1,5 @@
+version: '3.8'
+services:
+  kafka:
+    environment:
+      - KAFKA_CFG_ADVERTISED_LISTENERS=CLIENT://kafka:9092,EXTERNAL://kafka:9093

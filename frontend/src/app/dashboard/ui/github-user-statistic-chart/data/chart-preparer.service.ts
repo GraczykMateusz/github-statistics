@@ -19,6 +19,7 @@ export class ChartPreparerService {
   
   getOptions(): ChartConfiguration<'bar'>['options'] {
     return {
+      responsive: true,
       maintainAspectRatio: false
     };
   }
