@@ -24,6 +24,10 @@ To set up the necessary environmentn, execute:
 docker compose up -d
 ```
 
+### Presentation
+
+<img src="docs/app_presentation.gif" width="685px" height="auto"/>
+
 ### Screenshots
 
 <img src="docs/chart.png" width="685px" height="auto"/>
