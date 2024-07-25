@@ -26,14 +26,14 @@ docker compose up -d
 
 ### Presentation
 
-<img src="docs/app_presentation.gif" width="685px" height="auto"/>
+<img src="docs/app_presentation.gif" width="1000px" height="auto"/>
 
 ### Screenshots
 
-<img src="docs/chart.png" width="685px" height="auto"/>
+<img src="docs/chart.png" width="1000px" height="auto"/>
 
-<img src="docs/response.png" width="685px" height="auto"/>
+<img src="docs/response.png" width="1000px" height="auto"/>
 
-<img src="docs/api_swagger.png" width="685px" height="auto"/>
+<img src="docs/api_swagger.png" width="1000px" height="auto"/>
 
-<img src="docs/user_not_found.png" width="685px" height="auto"/>
+<img src="docs/user_not_found.png" width="1000px" height="auto"/>
