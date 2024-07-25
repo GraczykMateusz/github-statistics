@@ -2,6 +2,9 @@
 
 [![CircleCI](https://dl.circleci.com/status-badge/img/gh/GraczykMateusz/github-statistics/tree/master.svg?style=svg)](https://dl.circleci.com/status-badge/redirect/gh/GraczykMateusz/github-statistics/tree/master)
 
+### This is upgraded version of this project:
+https://github.com/GraczykMateusz/rest-exercise
+
 ### Application Requirements
 
 The application should meet the following requirements:
