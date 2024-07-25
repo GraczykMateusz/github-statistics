@@ -18,7 +18,7 @@ The application should meet the following requirements:
 
 ### Docker Deployment: 
 
-To set up the necessary environmentn, execute:
+To set up the necessary environment, execute:
 
 ```docker
 docker compose up -d
