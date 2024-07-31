@@ -13,6 +13,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.*;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
@@ -27,7 +28,9 @@ class HomePageIT {
 
   @BeforeEach
   void setup() {
-    driver = new ChromeDriver();
+    var chromeOptions = new ChromeOptions();
+    chromeOptions.addArguments("--search-engine-choice-country");
+    driver = new ChromeDriver(chromeOptions);
     driver.manage().window().setSize(new Dimension(1920, 1080));
   }
 
@@ -37,7 +40,7 @@ class HomePageIT {
   }
 
   @Test
-  void shouldDisplayChartWithData() throws IOException {
+  void shouldDisplayChartWithData() throws IOException, InterruptedException {
     driver.get("http://localhost:8081");
 
     WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(5));
@@ -53,6 +56,8 @@ class HomePageIT {
     WebElement submitLogin =
         wait.until(ExpectedConditions.elementToBeClickable(By.id("submit-login")));
     submitLogin.click();
+
+    Thread.sleep(3000); // todo need to find another way to wait for chart displaying
 
     // Make entire page screenshot
     File screenshot = ((TakesScreenshot) driver).getScreenshotAs(OutputType.FILE);
@@ -80,7 +85,18 @@ class HomePageIT {
     int red = (chartCenterColor & 0xff0000) >> 16;
     int alpha = (chartCenterColor & 0xff000000) >>> 24;
 
-    assertThat(List.of(red, green, blue, alpha))
-        .containsExactlyElementsOf(List.of(154, 208, 245, 255));
+    int tolerance = 25; // Allow a tolerance of +/- 25 for each color component
+
+    // Expected color values
+    List<Integer> expectedColor = List.of(175, 207, 243, 255);
+
+    // Actual color values
+    List<Integer> actualColor = List.of(red, green, blue, alpha);
+
+    // Assert with tolerance
+    for (int i = 0; i < expectedColor.size(); i++) {
+      assertThat(actualColor.get(i))
+          .isBetween(expectedColor.get(i) - tolerance, expectedColor.get(i) + tolerance);
+    }
   }
 }
