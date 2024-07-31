@@ -6,5 +6,5 @@ COPY delivery/target/delivery-*.jar /app/delivery.jar
 
 WORKDIR /app
 
-CMD ["java", "-jar", "delivery.jar"]
+CMD ["java", "-cp", "delivery.jar", "dev.graczykmateusz.githubstatistics.GithubStatisticsApplication"]
 
