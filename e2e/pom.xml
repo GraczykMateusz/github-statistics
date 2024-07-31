@@ -58,6 +58,7 @@
                 <artifactId>exec-maven-plugin</artifactId>
                 <version>3.2.0</version>
                 <executions>
+
                     <execution>
                         <id>docker-compose-e2e-up</id>
                         <phase>pre-integration-test</phase>
@@ -76,8 +77,9 @@
                             </arguments>
                         </configuration>
                     </execution>
+
                     <execution>
-                        <id>docker-build</id>
+                        <id>docker-build-delivery</id>
                         <phase>pre-integration-test</phase>
                         <goals>
                             <goal>exec</goal>
@@ -93,6 +95,43 @@
                         </configuration>
                     </execution>
                     <execution>
+                        <id>docker-build-e2e-connector-wait</id>
+                        <phase>pre-integration-test</phase>
+                        <goals>
+                            <goal>exec</goal>
+                        </goals>
+                        <configuration>
+                            <executable>docker</executable>
+                            <arguments>
+                                <argument>build</argument>
+                                <argument>-t</argument>
+                                <argument>e2e-connector-wait-app:latest</argument>
+                                <argument>-f</argument>
+                                <argument>${project.basedir}/e2e-connector-wait.Dockerfile</argument>
+                                <argument>.</argument>
+                            </arguments>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>docker-build-e2e-server-wait</id>
+                        <phase>pre-integration-test</phase>
+                        <goals>
+                            <goal>exec</goal>
+                        </goals>
+                        <configuration>
+                            <executable>docker</executable>
+                            <arguments>
+                                <argument>build</argument>
+                                <argument>-t</argument>
+                                <argument>e2e-server-wait-app:latest</argument>
+                                <argument>-f</argument>
+                                <argument>${project.basedir}/e2e-server-wait.Dockerfile</argument>
+                                <argument>.</argument>
+                            </arguments>
+                        </configuration>
+                    </execution>
+
+                    <execution>
                         <id>wait-for-connector</id>
                         <phase>pre-integration-test</phase>
                         <goals>
@@ -107,13 +146,7 @@
                                 <argument>--rm</argument>
                                 <argument>--network</argument>
                                 <argument>github-statistics_default</argument>
-                                <argument>-v</argument>
-                                <argument>${project.build.outputDirectory}:/app</argument>
-                                <argument>openjdk:21-slim</argument>
-                                <argument>java</argument>
-                                <argument>-cp</argument>
-                                <argument>/app</argument>
-                                <argument>dev.graczykmateusz.e2e.WaitForConnector</argument>
+                                <argument>e2e-connector-wait-app:latest</argument>
                             </arguments>
                         </configuration>
                     </execution>
@@ -154,13 +187,7 @@
                                 <argument>--rm</argument>
                                 <argument>--network</argument>
                                 <argument>github-statistics_default</argument>
-                                <argument>-v</argument>
-                                <argument>${project.build.outputDirectory}:/app</argument>
-                                <argument>openjdk:21-slim</argument>
-                                <argument>java</argument>
-                                <argument>-cp</argument>
-                                <argument>/app</argument>
-                                <argument>dev.graczykmateusz.e2e.WaitForServer</argument>
+                                <argument>e2e-server-wait-app:latest</argument>
                             </arguments>
                         </configuration>
                     </execution>
