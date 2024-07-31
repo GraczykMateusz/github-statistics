@@ -13,7 +13,7 @@ public class WaitForServer {
 
   public static void main(String[] args) throws InterruptedException {
     String url = "http://github-statistics-app:8081/actuator/health";
-    int timeoutSeconds = 60;
+    int timeoutSeconds = 120;
     long startTime = System.currentTimeMillis();
 
     while (!isServerHealthy(url)) {

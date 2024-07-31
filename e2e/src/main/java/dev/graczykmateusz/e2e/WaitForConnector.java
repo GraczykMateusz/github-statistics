@@ -13,7 +13,7 @@ public class WaitForConnector {
 
   public static void main(String[] args) throws InterruptedException {
     String url = "http://connect:8083/connectors/";
-    int timeoutSeconds = 100;
+    int timeoutSeconds = 120;
     long startTime = System.currentTimeMillis();
 
     while (!isConnectorSetUp(url)) {
