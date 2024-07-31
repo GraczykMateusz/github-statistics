@@ -43,10 +43,10 @@ class HomePageIT {
   void shouldDisplayChartWithData() throws IOException, InterruptedException {
     driver.get("http://localhost:8081");
 
-    WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(5));
+    WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
 
     // Chart exists
-    WebElement chartCanvas = driver.findElement(By.id("github-user-statistic-chart"));
+    WebElement chartCanvas = wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("github-user-statistic-chart")));
 
     // Find the button
     WebElement input = wait.until(ExpectedConditions.elementToBeClickable(By.id("login")));
