@@ -165,7 +165,6 @@
                                 <argument>--net=github-statistics_default</argument>
                                 <argument>-p</argument>
                                 <argument>8081:8081</argument>
-                                <argument>-d</argument>
                                 <argument>-e</argument>
                                 <argument>SPRING_PROFILES_ACTIVE=e2e</argument>
                                 <argument>github-statistics-app:latest</argument>
