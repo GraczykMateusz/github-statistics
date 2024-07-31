@@ -66,7 +66,7 @@ jobs:
       - run:
           name: Install frontend JAR to local Maven repository
           command: |
-            cd ..
+            cd ~/github-statistics
             mvn install:install-file \
               -Dfile=frontend/target/frontend-1.0-SNAPSHOT.jar \
               -DgroupId=dev.graczykmateusz \
@@ -77,7 +77,7 @@ jobs:
       - run:
           name: Install backend JAR to local Maven repository
           command: |
-            cd ..
+            cd ~/github-statistics
             mvn install:install-file \
               -Dfile=backend/target/backend-1.0-SNAPSHOT.jar \
               -DgroupId=dev.graczykmateusz \
@@ -103,7 +103,7 @@ jobs:
       - run:
           name: Install delivery JAR to local Maven repository
           command: |
-            cd ..
+            cd ~/github-statistics
             mvn install:install-file \
               -Dfile=delivery/target/delivery-1.0-SNAPSHOT.jar \
               -DgroupId=dev.graczykmateusz \
@@ -111,7 +111,8 @@ jobs:
               -Dversion=1.0-SNAPSHOT \
               -Dpackaging=jar \
               -DgeneratePom=true
-      - setup_remote_docker
+      - setup_remote_docker:
+          docker_layer_caching: true
       - run:
           name: Test
           command: mvn verify
