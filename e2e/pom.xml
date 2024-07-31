@@ -99,10 +99,20 @@
                             <goal>exec</goal>
                         </goals>
                         <configuration>
-                            <executable>java</executable>
+                            <executable>docker</executable>
                             <arguments>
+                                <argument>run</argument>
+                                <argument>--name</argument>
+                                <argument>wait-for-connector-app</argument>
+                                <argument>--rm</argument>
+                                <argument>--network</argument>
+                                <argument>github-statistics_default</argument>
+                                <argument>-v</argument>
+                                <argument>${project.build.outputDirectory}:/app</argument>
+                                <argument>openjdk:21-slim</argument>
+                                <argument>java</argument>
                                 <argument>-cp</argument>
-                                <argument>${project.build.outputDirectory}</argument>
+                                <argument>/app</argument>
                                 <argument>dev.graczykmateusz.e2e.WaitForConnector</argument>
                             </arguments>
                         </configuration>
@@ -130,36 +140,32 @@
                         </configuration>
                     </execution>
                     <execution>
-                        <id>wait-for-app</id>
+                        <id>wait-for-github-statistics-app</id>
                         <phase>pre-integration-test</phase>
-                        <goals>
-                            <goal>exec</goal>
-                        </goals>
-                        <configuration>
-                            <executable>java</executable>
-                            <arguments>
-                                <argument>-cp</argument>
-                                <argument>${project.build.outputDirectory}</argument>
-                                <argument>dev.graczykmateusz.e2e.WaitForServer</argument>
-                            </arguments>
-                        </configuration>
-                    </execution>
-                    <execution>
-                        <id>docker-stop</id>
-                        <phase>verify</phase>
                         <goals>
                             <goal>exec</goal>
                         </goals>
                         <configuration>
                             <executable>docker</executable>
                             <arguments>
-                                <argument>stop</argument>
-                                <argument>github-statistics-app</argument>
+                                <argument>run</argument>
+                                <argument>--name</argument>
+                                <argument>wait-for-github-statistics-app</argument>
+                                <argument>--rm</argument>
+                                <argument>--network</argument>
+                                <argument>github-statistics_default</argument>
+                                <argument>-v</argument>
+                                <argument>${project.build.outputDirectory}:/app</argument>
+                                <argument>openjdk:21-slim</argument>
+                                <argument>java</argument>
+                                <argument>-cp</argument>
+                                <argument>/app</argument>
+                                <argument>dev.graczykmateusz.e2e.WaitForServer</argument>
                             </arguments>
                         </configuration>
                     </execution>
                     <execution>
-                        <id>docker-remove-after</id>
+                        <id>docker-remove-github-statistics-app</id>
                         <phase>verify</phase>
                         <goals>
                             <goal>exec</goal>
@@ -168,6 +174,7 @@
                             <executable>docker</executable>
                             <arguments>
                                 <argument>rm</argument>
+                                <argument>-f</argument>
                                 <argument>github-statistics-app</argument>
                             </arguments>
                         </configuration>

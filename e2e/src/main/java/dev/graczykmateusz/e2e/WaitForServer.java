@@ -1,7 +1,5 @@
 package dev.graczykmateusz.e2e;
 
-import org.springframework.boot.logging.LogLevel;
-
 import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
@@ -14,7 +12,7 @@ public class WaitForServer {
   private static final Logger log = Logger.getLogger(WaitForServer.class.getName());
 
   public static void main(String[] args) throws InterruptedException {
-    String url = "http://localhost:8081/actuator/health";
+    String url = "http://github-statistics-app:8081/actuator/health";
     int timeoutSeconds = 60;
     long startTime = System.currentTimeMillis();
 
