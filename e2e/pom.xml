@@ -162,7 +162,9 @@
                                 <argument>run</argument>
                                 <argument>--name</argument>
                                 <argument>github-statistics-app</argument>
-                                <argument>--net=github-statistics_default</argument>
+                                <argument>--rm</argument>
+                                <argument>--network</argument>
+                                <argument>github-statistics_default</argument>
                                 <argument>-p</argument>
                                 <argument>8081:8081</argument>
                                 <argument>-e</argument>
