@@ -1,10 +1,10 @@
 FROM openjdk:21
 
-RUN mkdir /opt/app
+RUN mkdir /app
 
-COPY delivery/target/delivery-*.jar /opt/app/delivery.jar
+COPY delivery/target/delivery-*.jar /app/delivery.jar
 
-WORKDIR /opt/app
+WORKDIR /app
 
 CMD ["java", "-jar", "delivery.jar"]
 
