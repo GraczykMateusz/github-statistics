@@ -16,13 +16,38 @@ The application should meet the following requirements:
 - [x] API Documentation: Include Swagger UI to visualize and interact with the API.
 - [ ] Automated Testing: Include unit tests, integration tests, and end-to-end (e2e) tests. These tests should be automatically executed during the CI build process.
 
-### Docker Deployment: 
+### Run on docker:
 
-To set up the necessary environment, execute:
+Each step should be executed inside the github-statistics directory.
 
-```docker
-docker compose up -d
+#### Step 1: Build package
 ```
+mvn verify
+```
+
+#### Step 2: Build docker image
+```
+ docker build . -t github-statistics-app 
+```
+
+#### Step 3: Run other services
+```
+docker compose -f docker-compose.yaml -f docker-compose.e2e.yaml up -d
+```
+
+#### Step 4: Wait for the connector setup to complete its task
+
+#### Step 5: Run image
+```
+docker run -p 8081:8081 --net=github-statistics_default -d -e SPRING_PROFILES_ACTIVE=e2e github-statistics-app:latest
+```
+
+#### Step 6: Enter website:
+```
+http://localhost:8081/#/dashboard
+```
+
+-----------------
 
 ### Presentation
 
