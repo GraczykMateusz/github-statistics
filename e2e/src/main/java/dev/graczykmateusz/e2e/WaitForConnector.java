@@ -12,7 +12,7 @@ public class WaitForConnector {
   private static final Logger log = Logger.getLogger(WaitForConnector.class.getName());
 
   public static void main(String[] args) throws InterruptedException {
-    String url = "http://localhost:8083/connectors/";
+    String url = "http://connect:8083/connectors/";
     int timeoutSeconds = 100;
     long startTime = System.currentTimeMillis();
 
