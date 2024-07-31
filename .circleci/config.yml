@@ -113,6 +113,9 @@ jobs:
               -DgeneratePom=true
       - setup_remote_docker
       - run:
+          name: Verify contents
+          command: ls
+      - run:
           name: Test
           command: mvn verify
 
