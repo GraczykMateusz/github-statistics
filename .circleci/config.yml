@@ -27,7 +27,7 @@ jobs:
           key: frontend-{{ checksum "package-lock.json" }}
       - run:
           name: Build
-          command: mvn clean install
+          command: mvn install
       - persist_to_workspace:
           root: ~/github-statistics
           paths:
@@ -46,7 +46,7 @@ jobs:
 #          command: mvn spotless:check
       - run:
           name: Build
-          command: mvn clean install
+          command: mvn install
       - save_cache:
           paths:
             - ~/.m2
@@ -113,6 +113,12 @@ jobs:
               -DgeneratePom=true
       - setup_remote_docker:
           docker_layer_caching: true
+      - run:
+          name: Build Docker Image
+          command: docker build -t github-statistics-app:latest .
+      - run:
+          name: Verify Docker Image
+          command: docker run --name github-statistics-app --rm -p 8081:8081 -e SPRING_PROFILES_ACTIVE=e2e github-statistics-app:latest
       - run:
           name: Test
           command: mvn verify
