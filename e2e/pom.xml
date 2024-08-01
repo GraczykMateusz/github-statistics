@@ -174,21 +174,6 @@
                             </arguments>
                         </configuration>
                     </execution>
-                    <execution>
-                        <id>docker-logs</id>
-                        <phase>pre-integration-test</phase>
-                        <goals>
-                            <goal>exec</goal>
-                        </goals>
-                        <configuration>
-                            <executable>docker</executable>
-                            <arguments>
-                                <argument>logs</argument>
-                                <argument>-f</argument>
-                                <argument>github-statistics-app</argument>
-                            </arguments>
-                        </configuration>
-                    </execution>
 
                     <execution>
                         <id>wait-for-github-statistics-app</id>
@@ -206,21 +191,6 @@
                                 <argument>--network</argument>
                                 <argument>github-statistics_default</argument>
                                 <argument>e2e-server-wait-app:latest</argument>
-                            </arguments>
-                        </configuration>
-                    </execution>
-                    <execution>
-                        <id>docker-logs-2</id>
-                        <phase>pre-integration-test</phase>
-                        <goals>
-                            <goal>exec</goal>
-                        </goals>
-                        <configuration>
-                            <executable>docker</executable>
-                            <arguments>
-                                <argument>logs</argument>
-                                <argument>-f</argument>
-                                <argument>github-statistics-app</argument>
                             </arguments>
                         </configuration>
                     </execution>
