@@ -27,7 +27,7 @@ jobs:
           key: frontend-{{ checksum "package-lock.json" }}
       - run:
           name: Build
-          command: mvn install
+          command: mvn clean install
       - persist_to_workspace:
           root: ~/github-statistics
           paths:
@@ -46,7 +46,7 @@ jobs:
 #          command: mvn spotless:check
       - run:
           name: Build
-          command: mvn install
+          command: mvn clean install
       - save_cache:
           paths:
             - ~/.m2
@@ -85,7 +85,7 @@ jobs:
               -Dpackaging=jar
       - run:
           name: Build
-          command: mvn package
+          command: mvn clean package
       - persist_to_workspace:
           root: ~/github-statistics
           paths:
