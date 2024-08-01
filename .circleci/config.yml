@@ -114,14 +114,6 @@ jobs:
       - setup_remote_docker:
           docker_layer_caching: true
       - run:
-          name: Build Docker Image
-          command: |
-            cd ~/github-statistics
-            docker build -t github-statistics-app:latest .
-      - run:
-          name: Verify Docker Image
-          command: docker run --name github-statistics-app --rm -p 8081:8081 -e SPRING_PROFILES_ACTIVE=e2e github-statistics-app:latest
-      - run:
           name: Test
           command: mvn verify
 

@@ -167,24 +167,10 @@
                                 <argument>github-statistics_default</argument>
                                 <argument>-p</argument>
                                 <argument>8081:8081</argument>
+                                <argument>-d</argument>
                                 <argument>-e</argument>
                                 <argument>SPRING_PROFILES_ACTIVE=e2e</argument>
                                 <argument>github-statistics-app:latest</argument>
-                            </arguments>
-                        </configuration>
-                    </execution>
-                    <execution>
-                        <id>docker-logs</id>
-                        <phase>pre-integration-test</phase>
-                        <goals>
-                            <goal>exec</goal>
-                        </goals>
-                        <configuration>
-                            <executable>docker</executable>
-                            <arguments>
-                                <argument>logs</argument>
-                                <argument>-f</argument>
-                                <argument>github-statistics-app</argument>
                             </arguments>
                         </configuration>
                     </execution>
