@@ -104,6 +104,26 @@ jobs:
       - attach_workspace:
           at: ~/github-statistics
       - run:
+          name: Install frontend JAR to local Maven repository
+          command: |
+            cd ~/github-statistics
+            mvn install:install-file \
+              -Dfile=frontend/target/frontend-1.0-SNAPSHOT.jar \
+              -DgroupId=dev.graczykmateusz \
+              -DartifactId=frontend \
+              -Dversion=1.0-SNAPSHOT \
+              -Dpackaging=jar
+      - run:
+          name: Install backend JAR to local Maven repository
+          command: |
+            cd ~/github-statistics
+            mvn install:install-file \
+              -Dfile=backend/target/backend-1.0-SNAPSHOT.jar \
+              -DgroupId=dev.graczykmateusz \
+              -DartifactId=backend \
+              -Dversion=1.0-SNAPSHOT \
+              -Dpackaging=jar
+      - run:
           name: Install parent to local Maven repository
           command: |
             cd ~/github-statistics
