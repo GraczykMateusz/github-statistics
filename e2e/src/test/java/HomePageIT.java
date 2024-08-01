@@ -41,7 +41,7 @@ class HomePageIT {
 
   @Test
   void shouldDisplayChartWithData() throws IOException, InterruptedException {
-    driver.get("http://0.0.0.0:8081");
+    driver.get("http://localhost:8081");
 
     WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
 
