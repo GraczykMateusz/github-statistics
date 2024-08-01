@@ -72,8 +72,7 @@ jobs:
               -DgroupId=dev.graczykmateusz \
               -DartifactId=frontend \
               -Dversion=1.0-SNAPSHOT \
-              -Dpackaging=jar \
-              -DgeneratePom=true
+              -Dpackaging=jar
       - run:
           name: Install backend JAR to local Maven repository
           command: |
@@ -83,8 +82,7 @@ jobs:
               -DgroupId=dev.graczykmateusz \
               -DartifactId=backend \
               -Dversion=1.0-SNAPSHOT \
-              -Dpackaging=jar \
-              -DgeneratePom=true
+              -Dpackaging=jar
       - run:
           name: Build
           command: mvn package
@@ -101,6 +99,11 @@ jobs:
       - attach_workspace:
           at: ~/github-statistics
       - run:
+          name: Install parent to local Maven repository
+          command: |
+            cd ~/github-statistics
+            mvn install -N
+      - run:
           name: Install delivery JAR to local Maven repository
           command: |
             cd ~/github-statistics
@@ -109,8 +112,7 @@ jobs:
               -DgroupId=dev.graczykmateusz \
               -DartifactId=delivery \
               -Dversion=1.0-SNAPSHOT \
-              -Dpackaging=jar \
-              -DgeneratePom=true
+              -Dpackaging=jar
       - setup_remote_docker:
           docker_layer_caching: true
       - run:
