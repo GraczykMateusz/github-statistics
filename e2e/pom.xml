@@ -175,6 +175,22 @@
                         </configuration>
                     </execution>
                     <execution>
+                        <id>docker-logs</id>
+                        <phase>pre-integration-test</phase>
+                        <goals>
+                            <goal>exec</goal>
+                        </goals>
+                        <configuration>
+                            <executable>docker</executable>
+                            <arguments>
+                                <argument>logs</argument>
+                                <argument>-f</argument>
+                                <argument>github-statistics-app</argument>
+                            </arguments>
+                        </configuration>
+                    </execution>
+
+                    <execution>
                         <id>wait-for-github-statistics-app</id>
                         <phase>pre-integration-test</phase>
                         <goals>
@@ -193,6 +209,22 @@
                             </arguments>
                         </configuration>
                     </execution>
+                    <execution>
+                        <id>docker-logs-2</id>
+                        <phase>pre-integration-test</phase>
+                        <goals>
+                            <goal>exec</goal>
+                        </goals>
+                        <configuration>
+                            <executable>docker</executable>
+                            <arguments>
+                                <argument>logs</argument>
+                                <argument>-f</argument>
+                                <argument>github-statistics-app</argument>
+                            </arguments>
+                        </configuration>
+                    </execution>
+
                     <execution>
                         <id>docker-remove-github-statistics-app</id>
                         <phase>verify</phase>
