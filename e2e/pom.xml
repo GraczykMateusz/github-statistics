@@ -24,10 +24,9 @@
             <version>1.0-SNAPSHOT</version>
         </dependency>
         <dependency>
-            <groupId>org.junit.jupiter</groupId>
-            <artifactId>junit-jupiter-api</artifactId>
-            <version>5.10.2</version>
-            <scope>test</scope>
+            <groupId>org.testng</groupId>
+            <artifactId>testng</artifactId>
+            <version>7.10.2</version>
         </dependency>
         <dependency>
             <groupId>org.assertj</groupId>
@@ -53,7 +52,25 @@
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-dependency-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>copy-dependencies</goal>
+                        </goals>
+                        <configuration>
+                            <outputDirectory>${project.build.directory}/dependency</outputDirectory>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-failsafe-plugin</artifactId>
+                <configuration>
+                    <skipITs>true</skipITs>
+                </configuration>
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -137,6 +154,24 @@
                                 <argument>e2e-server-wait-app:latest</argument>
                                 <argument>-f</argument>
                                 <argument>${project.basedir}/e2e-server-wait.Dockerfile</argument>
+                                <argument>.</argument>
+                            </arguments>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>docker-build-e2e-tests</id>
+                        <phase>pre-integration-test</phase>
+                        <goals>
+                            <goal>exec</goal>
+                        </goals>
+                        <configuration>
+                            <executable>docker</executable>
+                            <arguments>
+                                <argument>build</argument>
+                                <argument>-t</argument>
+                                <argument>e2e-tests:latest</argument>
+                                <argument>-f</argument>
+                                <argument>${project.basedir}/e2e-tests.Dockerfile</argument>
                                 <argument>.</argument>
                             </arguments>
                         </configuration>
@@ -246,6 +281,26 @@
                     </execution>
 
                     <execution>
+                        <id>e2e-tests</id>
+                        <phase>integration-test</phase>
+                        <goals>
+                            <goal>exec</goal>
+                        </goals>
+                        <configuration>
+                            <executable>docker</executable>
+                            <arguments>
+                                <argument>run</argument>
+                                <argument>--name</argument>
+                                <argument>e2e-tests</argument>
+                                <argument>--rm</argument>
+                                <argument>--network</argument>
+                                <argument>github-statistics_default</argument>
+                                <argument>e2e-tests:latest</argument>
+                            </arguments>
+                        </configuration>
+                    </execution>
+
+                    <execution>
                         <id>docker-remove-github-statistics-app</id>
                         <phase>verify</phase>
                         <goals>
@@ -257,6 +312,21 @@
                                 <argument>rm</argument>
                                 <argument>-f</argument>
                                 <argument>github-statistics-app</argument>
+                            </arguments>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>docker-remove-github-statistics-app</id>
+                        <phase>verify</phase>
+                        <goals>
+                            <goal>exec</goal>
+                        </goals>
+                        <configuration>
+                            <executable>docker</executable>
+                            <arguments>
+                                <argument>rm</argument>
+                                <argument>-f</argument>
+                                <argument>selenium-firefox</argument>
                             </arguments>
                         </configuration>
                     </execution>

@@ -1,9 +1,7 @@
 package dev.graczykmateusz.e2e;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import io.github.bonigarcia.wdm.WebDriverManager;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -12,39 +10,42 @@ import java.net.URL;
 import java.time.Duration;
 import java.util.List;
 import javax.imageio.ImageIO;
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
 import org.openqa.selenium.*;
 import org.openqa.selenium.firefox.FirefoxOptions;
 import org.openqa.selenium.remote.RemoteWebDriver;
+import org.openqa.selenium.remote.http.ClientConfig;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
+import org.testng.annotations.AfterMethod;
+import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.Test;
 
 public class HomePageIT {
 
   private WebDriver driver;
 
-  @BeforeAll
-  public static void setupAll() {
-    assertTrue(WebDriverManager.isDockerAvailable());
-  }
-
-  @BeforeEach
+  @BeforeMethod
   public void setup() throws MalformedURLException {
     FirefoxOptions options = new FirefoxOptions().addArguments("--disable-dev-shm-usage");
-    driver = new RemoteWebDriver(new URL("http://0.0.0.0:4444/wd/hub"), options);
+    driver = RemoteWebDriver.builder()
+            .addAlternative(options)
+            .config(ClientConfig.defaultConfig().baseUrl(new URL("http://selenium-firefox:4444/wd/hub")).connectionTimeout(Duration.ofSeconds(30)))
+            .build();
+
     driver.manage().window().maximize();
+
+//    FirefoxOptions options = new FirefoxOptions().addArguments("--disable-dev-shm-usage");
+//    driver = new RemoteWebDriver(new URL("http://selenium-firefox:4444/wd/hub"), options);
+//    driver.manage().window().maximize();
   }
 
-  @AfterEach
+  @AfterMethod
   public void teardown() {
-    driver.close();
+    driver.quit();
   }
 
   @Test
-  void shouldDisplayChartWithData() throws IOException, InterruptedException {
+  public void shouldDisplayChartWithData() throws IOException, InterruptedException {
     // Navigate to the test application
     driver.get("http://github-statistics-app:8081");
 
