@@ -30,7 +30,7 @@ jobs:
           key: frontend-{{ checksum "package-lock.json" }}
       - run:
           name: Build
-          command: mvn install
+          command: mvn install -P e2e
       - persist_to_workspace:
           root: ~/github-statistics
           paths:
