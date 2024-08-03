@@ -36,7 +36,7 @@
             "scripts": []
           },
           "configurations": {
-            "production": {
+            "e2e": {
               "fileReplacements": [
                 {
                   "replace": "src/environments/environment.ts",
@@ -58,6 +58,12 @@
               "outputHashing": "all"
             },
             "local": {
+              "fileReplacements": [
+                {
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.local.ts"
+                }
+              ],
               "budgets": [
                 {
                   "type": "initial",
@@ -86,8 +92,8 @@
             "proxyConfig": "proxy.config.json"
           },
           "configurations": {
-            "production": {
-              "buildTarget": "GithubStatistics:build:production"
+            "e2e": {
+              "buildTarget": "GithubStatistics:build:e2e"
             },
             "local": {
               "buildTarget": "GithubStatistics:build:local"
@@ -96,7 +102,7 @@
               "buildTarget": "GithubStatistics:build:development"
             }
           },
-          "defaultConfiguration": "development"
+          "defaultConfiguration": "local"
         },
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",

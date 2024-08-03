@@ -1,4 +1,4 @@
-## Github statistics (In progress)
+## Github statistics
 
 [![CircleCI](https://dl.circleci.com/status-badge/img/gh/GraczykMateusz/github-statistics/tree/master.svg?style=svg)](https://dl.circleci.com/status-badge/redirect/gh/GraczykMateusz/github-statistics/tree/master)
 
@@ -14,7 +14,7 @@ The application should meet the following requirements:
 - [x] Real-Time Updates: Listen for changes in the database and display these changes in real-time on a chart using Kafka, Debezium and Websocket.
 - [x] Responsiveness: The application should be responsive, providing an optimal user experience across various devices and screen sizes.
 - [x] API Documentation: Include Swagger UI to visualize and interact with the API.
-- [ ] Automated Testing: Include unit tests, integration tests, and end-to-end (e2e) tests. These tests should be automatically executed during the CI build process.
+- [x] Automated Testing: Include unit tests, integration tests, and end-to-end (e2e) tests. These tests should be automatically executed during the CI build process.
 
 ### Run on docker:
 
@@ -22,7 +22,7 @@ Each step should be executed inside the github-statistics directory.
 
 #### Step 1: Build package
 ```
-mvn verify
+mvn verify -P local
 ```
 
 #### Step 2: Build docker image
@@ -73,3 +73,5 @@ http://localhost:8081/#/dashboard
 <img src="docs/api_swagger.png" width="1000px" height="auto"/>
 
 <img src="docs/user_not_found.png" width="1000px" height="auto"/>
+
+<img src="docs/ci.png" width="1000px" height="auto"/>

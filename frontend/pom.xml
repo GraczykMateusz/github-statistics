@@ -57,10 +57,7 @@
 
     <profiles>
         <profile>
-            <id>default</id>
-            <activation>
-                <activeByDefault>true</activeByDefault>
-            </activation>
+            <id>local</id>
             <build>
                 <plugins>
                     <plugin>
@@ -75,7 +72,7 @@
                                 </goals>
                                 <phase>generate-resources</phase>
                                 <configuration>
-                                    <arguments>run build</arguments>
+                                    <arguments>run build-local</arguments>
                                 </configuration>
                             </execution>
                         </executions>
@@ -99,7 +96,7 @@
                                 </goals>
                                 <phase>generate-resources</phase>
                                 <configuration>
-                                    <arguments>run build --configuration=production</arguments>
+                                    <arguments>run build-e2e</arguments>
                                 </configuration>
                             </execution>
                         </executions>
