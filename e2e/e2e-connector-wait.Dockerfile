@@ -1,4 +1,4 @@
-FROM openjdk:21
+FROM openjdk:21-jre-slim
 
 RUN mkdir /app
 

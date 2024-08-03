@@ -1,13 +1,16 @@
 version: 2.1
 
 executors:
-  default-executor:
+  java-exec:
     docker:
-      - image: cimg/openjdk:21.0-browsers
+      - image: cimg/openjdk:21.0
+  node-exec:
+    docker:
+      - image: cimg/openjdk:21.0-node
 
 jobs:
   build-frontend:
-    executor: default-executor
+    executor: node-exec
     working_directory: ~/github-statistics/frontend
     steps:
       - checkout:
@@ -18,9 +21,9 @@ jobs:
       - run:
           name: Install deps
           command: npm ci
-#      - run:
-#          name: Ng Lint
-#          command: npm run lint
+      - run:
+          name: Ng Lint
+          command: npm run lint
       - save_cache:
           paths:
             - ~/github-statistics/frontend/node_modules
@@ -33,7 +36,7 @@ jobs:
           paths:
             - frontend/target/*.jar
   build-backend:
-    executor: default-executor
+    executor: java-exec
     working_directory: ~/github-statistics/backend
     steps:
       - checkout:
@@ -41,9 +44,9 @@ jobs:
       - restore_cache:
           keys:
             - backend-{{ checksum "pom.xml" }}
-#      - run:
-#          name: Spotless check
-#          command: mvn spotless:check
+      - run:
+          name: Spotless check
+          command: mvn spotless:check
       - run:
           name: Build
           command: mvn install
@@ -56,7 +59,7 @@ jobs:
           paths:
             - backend/target/*.jar
   delivery:
-    executor: default-executor
+    executor: java-exec
     working_directory: ~/github-statistics/delivery
     steps:
       - checkout:
@@ -96,7 +99,7 @@ jobs:
           paths:
             - delivery/target/*.jar
   e2e:
-    executor: default-executor
+    executor: java-exec
     working_directory: ~/github-statistics/e2e
     steps:
       - checkout:
