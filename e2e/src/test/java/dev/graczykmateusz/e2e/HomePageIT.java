@@ -43,8 +43,9 @@ public class HomePageIT {
     // Setup WebDriverManager for the FirefoxDriver
     WebDriverManager.firefoxdriver().setup();
 
-    String remoteUrl = "http://selenium:4444/wd/hub";
-    driver = new RemoteWebDriver(new URL(remoteUrl), new FirefoxOptions());
+    URL remoteUrl = wdm.getDockerSeleniumServerUrl();
+    System.out.println(wdm.getDockerSeleniumServerUrl());
+    driver = new RemoteWebDriver(remoteUrl, new FirefoxOptions());
     driver.manage().window().maximize();
   }
 
