@@ -8,7 +8,6 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.net.MalformedURLException;
-import java.net.URL;
 import java.time.Duration;
 import java.util.List;
 import javax.imageio.ImageIO;
@@ -17,8 +16,6 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.*;
-import org.openqa.selenium.firefox.FirefoxOptions;
-import org.openqa.selenium.remote.RemoteWebDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
@@ -37,14 +34,12 @@ public class HomePageIT {
   }
 
   @BeforeEach
-  public void setup() throws MalformedURLException {
+  public void setup() {
     assertTrue(WebDriverManager.isDockerAvailable());
 
-    // Setup WebDriverManager for the FirefoxDriver
     WebDriverManager.firefoxdriver().setup();
 
-    String remoteUrl = "http://selenium-hub:4444/wd/hub";
-    driver = new RemoteWebDriver(new URL(remoteUrl), new FirefoxOptions());
+    driver = wdm.create();
     driver.manage().window().maximize();
   }
 
