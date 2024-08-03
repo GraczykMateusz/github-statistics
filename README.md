@@ -58,6 +58,12 @@ docker run -p 8081:8081 --net=github-statistics_default -d -e SPRING_PROFILES_AC
 http://localhost:8081/#/dashboard
 ```
 
+#### Optional: 
+You can run end-to-end tests locally, but the application doesn't work after creating and running the Docker image because a separate profile is not specified.
+```
+mvn verify -P e2e
+```
+
 -----------------
 
 ### Presentation
