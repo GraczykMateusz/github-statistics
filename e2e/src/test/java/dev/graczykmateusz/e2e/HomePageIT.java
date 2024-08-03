@@ -7,6 +7,8 @@ import io.github.bonigarcia.wdm.WebDriverManager;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.time.Duration;
 import java.util.List;
 import javax.imageio.ImageIO;
@@ -15,34 +17,30 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.*;
+import org.openqa.selenium.firefox.FirefoxOptions;
+import org.openqa.selenium.remote.RemoteWebDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 public class HomePageIT {
 
-  private static WebDriverManager wdm;
   private WebDriver driver;
 
   @BeforeAll
   public static void setupAll() {
-    wdm =
-        WebDriverManager.firefoxdriver()
-            .timeout(120)
-            .dockerNetwork("github-statistics_default")
-            .browserInDocker();
+    assertTrue(WebDriverManager.isDockerAvailable());
   }
 
   @BeforeEach
-  public void setup() {
-    assertTrue(WebDriverManager.isDockerAvailable());
-    WebDriverManager.firefoxdriver().setup();
-    driver = wdm.create();
+  public void setup() throws MalformedURLException {
+    FirefoxOptions options = new FirefoxOptions().addArguments("--disable-dev-shm-usage");
+    driver = new RemoteWebDriver(new URL("http://0.0.0.0:4444/wd/hub"), options);
     driver.manage().window().maximize();
   }
 
   @AfterEach
   public void teardown() {
-    wdm.quit();
+    driver.close();
   }
 
   @Test
