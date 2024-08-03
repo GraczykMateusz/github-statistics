@@ -24,17 +24,29 @@ public class HomePageIT {
 
   @BeforeClass
   public void setupAll() {
-    wdm = WebDriverManager.chromedriver()
-            .dockerNetwork("github-statistics_default")
-            .browserInDocker()
-            .enableVnc()
-            .enableRecording();
+    try {
+      // Initialize WebDriverManager with Docker settings
+      wdm = WebDriverManager.chromedriver()
+              .dockerNetwork("github-statistics_default")
+              .browserInDocker();
+      System.out.println("WebDriverManager setup completed.");
+    } catch (Exception e) {
+      System.err.println("Error during WebDriverManager setup: " + e.getMessage());
+      e.printStackTrace();
+    }
   }
 
   @BeforeMethod
   public void setup() {
-    driver = wdm.create();
-    driver.manage().window().maximize();
+    try {
+      // Create the WebDriver instance
+      driver = wdm.create();
+      driver.manage().window().maximize();
+      System.out.println("WebDriver instance created and maximized.");
+    } catch (Exception e) {
+      System.err.println("Error during WebDriver creation: " + e.getMessage());
+      e.printStackTrace();
+    }
   }
 
   @AfterMethod
@@ -44,62 +56,67 @@ public class HomePageIT {
 
   @Test
   public void shouldDisplayChartWithData() throws IOException, InterruptedException {
-    driver.get("http://github-statistics-app:8081");
+    try {
+      // Navigate to the test application
+      driver.get("http://github-statistics-app:8081");
 
-    WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+      WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
 
-    // Chart exists
-    WebElement chartCanvas = wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("github-user-statistic-chart")));
+      // Wait for the chart to be visible
+      WebElement chartCanvas = wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("github-user-statistic-chart")));
 
-    // Find the button
-    WebElement input = wait.until(ExpectedConditions.elementToBeClickable(By.id("login")));
+      // Find the input field and send data
+      WebElement input = wait.until(ExpectedConditions.elementToBeClickable(By.id("login")));
+      input.sendKeys("graczykmateusz");
 
-    // Send data to backend
-    input.sendKeys("graczykmateusz");
-    WebElement submitLogin =
-        wait.until(ExpectedConditions.elementToBeClickable(By.id("submit-login")));
-    submitLogin.click();
+      // Find and click the submit button
+      WebElement submitLogin = wait.until(ExpectedConditions.elementToBeClickable(By.id("submit-login")));
+      submitLogin.click();
 
-    Thread.sleep(3000); // todo need to find another way to wait for chart displaying
+      // Sleep to allow chart to render (consider replacing with a more robust wait condition)
+      Thread.sleep(3000);
 
-    // Make entire page screenshot
-    File screenshot = ((TakesScreenshot) driver).getScreenshotAs(OutputType.FILE);
-    BufferedImage fullImage = ImageIO.read(screenshot);
+      // Take screenshot of the entire page
+      File screenshot = ((TakesScreenshot) driver).getScreenshotAs(OutputType.FILE);
+      BufferedImage fullImage = ImageIO.read(screenshot);
 
-    // Get the location of chart on the page
-    Point point = chartCanvas.getLocation();
+      // Get the location and size of the chart
+      Point point = chartCanvas.getLocation();
+      int chartWidth = chartCanvas.getSize().getWidth();
+      int chartHeight = chartCanvas.getSize().getHeight();
 
-    // Get width and height of the chart
-    int chartWidth = chartCanvas.getSize().getWidth();
-    int chartHeight = chartCanvas.getSize().getHeight();
+      // Crop the screenshot to get only the chart
+      BufferedImage chartScreenshot = fullImage.getSubimage(point.getX(), point.getY(), chartWidth, chartHeight);
 
-    // Crop the entire page screenshot to get only chart screenshot
-    BufferedImage chartScreenshot =
-        fullImage.getSubimage(point.getX(), point.getY(), chartWidth, chartHeight);
+      // Get the center color of the chart
+      Dimension chartDimension = chartCanvas.getSize();
+      int chartCenterX = chartDimension.getWidth() / 2;
+      int chartCenterY = chartDimension.getHeight() / 2;
+      int chartCenterColor = chartScreenshot.getRGB(chartCenterX, chartCenterY);
 
-    Dimension chartDimension = chartCanvas.getSize();
-    int chartCenterX = chartDimension.getWidth() / 2;
-    int chartCenterY = chartDimension.getHeight() / 2;
+      int blue = chartCenterColor & 0xff;
+      int green = (chartCenterColor & 0xff00) >> 8;
+      int red = (chartCenterColor & 0xff0000) >> 16;
+      int alpha = (chartCenterColor & 0xff000000) >>> 24;
 
-    int chartCenterColor = chartScreenshot.getRGB(chartCenterX, chartCenterY);
+      int tolerance = 25; // Allow a tolerance of +/- 25 for each color component
 
-    int blue = chartCenterColor & 0xff;
-    int green = (chartCenterColor & 0xff00) >> 8;
-    int red = (chartCenterColor & 0xff0000) >> 16;
-    int alpha = (chartCenterColor & 0xff000000) >>> 24;
+      // Expected color values
+      List<Integer> expectedColor = List.of(175, 207, 243, 255);
 
-    int tolerance = 25; // Allow a tolerance of +/- 25 for each color component
+      // Actual color values
+      List<Integer> actualColor = List.of(red, green, blue, alpha);
 
-    // Expected color values
-    List<Integer> expectedColor = List.of(175, 207, 243, 255);
+      // Assert with tolerance
+      for (int i = 0; i < expectedColor.size(); i++) {
+        assertThat(actualColor.get(i))
+                .isBetween(expectedColor.get(i) - tolerance, expectedColor.get(i) + tolerance);
+      }
 
-    // Actual color values
-    List<Integer> actualColor = List.of(red, green, blue, alpha);
-
-    // Assert with tolerance
-    for (int i = 0; i < expectedColor.size(); i++) {
-      assertThat(actualColor.get(i))
-          .isBetween(expectedColor.get(i) - tolerance, expectedColor.get(i) + tolerance);
+    } catch (Exception e) {
+      System.err.println("Error during test execution: " + e.getMessage());
+      e.printStackTrace();
+      throw e; // Re-throw the exception to make sure the test fails
     }
   }
 }
