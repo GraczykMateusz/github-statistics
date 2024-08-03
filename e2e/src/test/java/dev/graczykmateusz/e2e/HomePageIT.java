@@ -26,11 +26,10 @@ public class HomePageIT {
 
   @BeforeMethod
   public void setup() throws MalformedURLException, InterruptedException {
-    Thread.sleep(15000);
     FirefoxOptions options = new FirefoxOptions().addArguments("--disable-dev-shm-usage");
     driver = RemoteWebDriver.builder()
             .addAlternative(options)
-            .config(ClientConfig.defaultConfig().baseUrl(new URL("http://selenium-firefox:4444/wd/hub")).connectionTimeout(Duration.ofSeconds(30)))
+            .config(ClientConfig.defaultConfig().baseUrl(new URL("http://selenium-firefox:4444/wd/hub")))
             .build();
 
     driver.manage().window().maximize();

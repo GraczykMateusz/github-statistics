@@ -159,6 +159,24 @@
                         </configuration>
                     </execution>
                     <execution>
+                        <id>docker-build-selenium-wait</id>
+                        <phase>pre-integration-test</phase>
+                        <goals>
+                            <goal>exec</goal>
+                        </goals>
+                        <configuration>
+                            <executable>docker</executable>
+                            <arguments>
+                                <argument>build</argument>
+                                <argument>-t</argument>
+                                <argument>e2e-selenium-wait-app:latest</argument>
+                                <argument>-f</argument>
+                                <argument>${project.basedir}/e2e-selenium-wait.Dockerfile</argument>
+                                <argument>.</argument>
+                            </arguments>
+                        </configuration>
+                    </execution>
+                    <execution>
                         <id>docker-build-e2e-tests</id>
                         <phase>pre-integration-test</phase>
                         <goals>
@@ -276,6 +294,26 @@
                                 <argument>/dev/shm:/dev/shm</argument>
                                 <argument>-d</argument>
                                 <argument>selenium/standalone-firefox:latest</argument>
+                            </arguments>
+                        </configuration>
+                    </execution>
+
+                    <execution>
+                        <id>wait-for-selenium</id>
+                        <phase>pre-integration-test</phase>
+                        <goals>
+                            <goal>exec</goal>
+                        </goals>
+                        <configuration>
+                            <executable>docker</executable>
+                            <arguments>
+                                <argument>run</argument>
+                                <argument>--name</argument>
+                                <argument>e2e-selenium-wait-app</argument>
+                                <argument>--rm</argument>
+                                <argument>--network</argument>
+                                <argument>github-statistics_default</argument>
+                                <argument>e2e-selenium-wait-app:latest</argument>
                             </arguments>
                         </configuration>
                     </execution>
