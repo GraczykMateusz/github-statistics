@@ -25,7 +25,8 @@ public class HomePageIT {
   private WebDriver driver;
 
   @BeforeMethod
-  public void setup() throws MalformedURLException {
+  public void setup() throws MalformedURLException, InterruptedException {
+    Thread.sleep(15000);
     FirefoxOptions options = new FirefoxOptions().addArguments("--disable-dev-shm-usage");
     driver = RemoteWebDriver.builder()
             .addAlternative(options)
