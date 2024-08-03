@@ -140,6 +140,7 @@ jobs:
               -Dpackaging=jar
       - setup_remote_docker:
           docker_layer_caching: true
+          version: 25.0.2
       - run:
           name: Test
           command: mvn verify
