@@ -1,3 +1,5 @@
+package dev.graczykmateusz.e2e;
+
 import static org.assertj.core.api.Assertions.assertThat;
 
 import io.github.bonigarcia.wdm.WebDriverManager;
@@ -7,41 +9,42 @@ import java.io.IOException;
 import java.time.Duration;
 import java.util.List;
 import javax.imageio.ImageIO;
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
 import org.openqa.selenium.*;
-import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
+import org.testng.annotations.AfterMethod;
+import org.testng.annotations.BeforeClass;
+import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.Test;
 
-class HomePageIT {
+public class HomePageIT {
 
+  private WebDriverManager wdm;
   private WebDriver driver;
 
-  @BeforeAll
-  static void setupAll() {
-    WebDriverManager.chromedriver().setup();
+  @BeforeClass
+  public void setupAll() {
+    wdm = WebDriverManager.chromedriver()
+            .dockerNetwork("github-statistics_default")
+            .browserInDocker()
+            .enableVnc()
+            .enableRecording();
   }
 
-  @BeforeEach
-  void setup() {
-    var chromeOptions = new ChromeOptions();
-    chromeOptions.addArguments("--search-engine-choice-country");
-    driver = new ChromeDriver(chromeOptions);
-    driver.manage().window().setSize(new Dimension(1920, 1080));
+  @BeforeMethod
+  public void setup() {
+    driver = wdm.create();
+    driver.manage().window().maximize();
   }
 
-  @AfterEach
-  void teardown() {
-    driver.quit();
+  @AfterMethod
+  public void teardown() {
+    wdm.quit();
   }
 
   @Test
-  void shouldDisplayChartWithData() throws IOException, InterruptedException {
-    driver.get("http://localhost:8081");
+  public void shouldDisplayChartWithData() throws IOException, InterruptedException {
+    driver.get("http://github-statistics-app:8081");
 
     WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
 
