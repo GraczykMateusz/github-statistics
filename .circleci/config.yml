@@ -146,7 +146,7 @@ jobs:
           version: default
       - run:
           name: Test
-          command: mvn verify
+          command: mvn verify -Pe2e
 
 workflows:
   main:
