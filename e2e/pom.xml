@@ -316,7 +316,7 @@
                         </configuration>
                     </execution>
                     <execution>
-                        <id>docker-remove-github-statistics-app</id>
+                        <id>docker-remove-selenium-firefox-app</id>
                         <phase>verify</phase>
                         <goals>
                             <goal>exec</goal>
