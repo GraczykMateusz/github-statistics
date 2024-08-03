@@ -1,6 +1,7 @@
 package dev.graczykmateusz.e2e;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import io.github.bonigarcia.wdm.WebDriverManager;
 import java.awt.image.BufferedImage;
@@ -9,7 +10,6 @@ import java.io.IOException;
 import java.time.Duration;
 import java.util.List;
 import javax.imageio.ImageIO;
-
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
@@ -27,12 +27,14 @@ public class HomePageIT {
   public static void setupAll() {
     wdm =
         WebDriverManager.firefoxdriver()
+            .timeout(120)
             .dockerNetwork("github-statistics_default")
             .browserInDocker();
   }
 
   @BeforeEach
   public void setup() {
+    assertTrue(WebDriverManager.isDockerAvailable());
     driver = wdm.create();
     driver.manage().window().maximize();
   }
