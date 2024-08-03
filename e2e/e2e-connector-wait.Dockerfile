@@ -1,4 +1,4 @@
-FROM openjdk:21-jre-slim
+FROM alpine/java:21-jre
 
 RUN mkdir /app
 
