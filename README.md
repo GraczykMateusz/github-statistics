@@ -37,6 +37,17 @@ docker compose -f docker-compose.yaml -f docker-compose.e2e.yaml up -d
 
 #### Step 4: Wait for the connector setup to complete its task
 
+###### Connector setup - running
+<img src="docs/connector_setup_running.png" width="1000px" height="auto"/>
+
+###### Connector setup - complete
+<img src="docs/connector_setup_completed.png" width="1000px" height="auto"/>
+
+###### The response inside connector-setup should be similar as shown below
+```json
+{"version":"3.7.0","commit":"2ae524ed625438c5","kafka_cluster_id":"fXjm_QzARxCEt3EfIL0ygw"}{"name":"postgresql-connector","config":{"connector.class":"io.debezium.connector.postgresql.PostgresConnector","topic.prefix":"pg-changes","database.user":"postgres","database.dbname":"db_local","table.exclude.list":"audit","database.hostname":"database","database.password":"postgres","plugin.name":"pgoutput","name":"postgresql-connector"},"tasks":[],"type":"source"}
+```
+
 #### Step 5: Run image
 ```
 docker run -p 8081:8081 --net=github-statistics_default -d -e SPRING_PROFILES_ACTIVE=e2e github-statistics-app:latest
